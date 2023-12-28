@@ -1,0 +1,6 @@
+/NE6882/debug
+/NE6882/release
+/NE6882communication/ne6882serial/debug
+/NE6882communication/ne6882serial/release
+*.Debug
+*.Release
