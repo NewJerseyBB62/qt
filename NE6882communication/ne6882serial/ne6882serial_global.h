@@ -66,7 +66,7 @@ typedef struct NE6882Data{
     float fTestTime;
     float fComp;
     int nConnectMode;   //0 继续 1 停止 2 单步
-    char strVersion[8];
+    quint8 strVersion[8];
     float fTestVal;
     int nIrUnit;    //0 mohm 1 ohm 2 Mohm 3Gohm
     int nFailStep;

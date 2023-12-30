@@ -10,6 +10,25 @@ namespace Ui {
 class programDialog;
 }
 
+typedef struct TestMINMAX{
+    float irVoltMin;
+    float irVoltMax;
+    float irResMin;
+    float irResMax;
+    int irCompMin;
+    int irCompMax;
+    float irTimeMin;
+    float irTimeMax;
+    float peqCurrentMin;
+    float peqCurrentMax;
+    float peqResMin;
+    float peqResMax;
+    float peqCompMin;
+    float peqCompMax;
+    float peqTimeMin;
+    float peqTimeMax;
+}TestValidator;
+
 class programDialog : public QDialog
 {
     Q_OBJECT
@@ -82,12 +101,14 @@ private:
     void irDefault(IrTestData *p_TestData);
     void peqDefault(PeqTestData *p_TestData);
     void groupDefault(GroupData *p_GroupData);
+    void initValidator();
 
 private:
     Ui::programDialog *ui;
     JsonData m_JsonData;
     QMap<TEST_ITEM, QString> m_ItemNameMap;
     int m_nLastListRow;
+    TestValidator m_Validator;
 };
 
 #endif // PROGRAMDIALOG_H

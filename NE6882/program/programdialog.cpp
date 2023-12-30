@@ -6,7 +6,7 @@
 #include <QMessageBox>
 
 enum TEST_PAGE{
-  ENM_PAGE_UNKNOWN,
+  ENM_PAGE_UNKNOWN = 0,
   ENM_PAGE_IR,
   ENM_PAGE_PEQ
 };
@@ -23,26 +23,31 @@ programDialog::programDialog(QString p_path, QWidget *parent) :
     //ui->itemListWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     //ui->itemListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->itemListWidget->setColumnWidth(0, 80);
-    ui->itemListWidget->setColumnWidth(1, 170);
+    ui->itemListWidget->setColumnWidth(1, 162);
+    ui->itemListWidget->verticalHeader()->setDefaultSectionSize(40);
     ui->itemListWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->itemListWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     QFont font = ui->itemListWidget->horizontalHeader()->font();
     font.setPixelSize(16);
+    font.setBold(true);
     ui->itemListWidget->horizontalHeader()->setFont(font);
+    ui->itemListWidget->setAlternatingRowColors(true);
 
     m_ItemNameMap.insert(TEST_ITEM::ENM_ITEM_IR, QStringLiteral("绝缘"));
     m_ItemNameMap.insert(TEST_ITEM::ENM_ITEM_PEQ, QStringLiteral("电位均衡"));
-
-    //ui->irTestSetLE->setValidator(new QDoubleValidator(0.000, 3.000, 3, this));
-    ui->irTestValLowLE->setValidator(new QDoubleValidator(0.00, 10000.00, 2, this));
-    ui->irTestValHighLE->setValidator(new QDoubleValidator(0.10, 10000.00, 2, this));
-    ui->irTestCompLE->setValidator(new QIntValidator(0, 55000, this));
-    ui->irTestTimeLE->setValidator(new QDoubleValidator(0.1, 999.9, 1, this));
-    ui->peqTestSetLE->setValidator(new QDoubleValidator(0.0, 6.000, 3, this));
-    ui->peqTestValLowLE->setValidator(new QDoubleValidator(0.0, 10.0000, 4, this));
-    ui->peqTestValHighLE->setValidator(new QDoubleValidator(0.10, 100.0000, 4, this));
-    ui->peqTestCompLE->setValidator(new QDoubleValidator(0, 2.0000, 4, this));
-    ui->peqTestTimeLE->setValidator(new QDoubleValidator(0.1, 999.9, 1, this));
+    initValidator();
+    ui->irTestSetLE->setValidator(new QDoubleValidator(m_Validator.irVoltMin, m_Validator.irVoltMax, 3, this));
+    ui->irTestValLowLE->setValidator(new QDoubleValidator(m_Validator.irResMin, m_Validator.irResMax, 3, this));
+    ui->irTestValHighLE->setValidator(new QDoubleValidator(m_Validator.irResMin, m_Validator.irResMax, 3, this));
+    ui->irTestCompLE->setValidator(new QIntValidator(m_Validator.irCompMin, m_Validator.irCompMax, this));
+    ui->irTestTimeLE->setValidator(new QDoubleValidator(m_Validator.irTimeMin, m_Validator.irTimeMax, 1, this));
+    ui->peqTestSetLE->setValidator(new QDoubleValidator(m_Validator.peqCurrentMin, m_Validator.peqCurrentMax, 2, this));
+    ui->peqTestValLowLE->setValidator(new QDoubleValidator(m_Validator.peqResMin, m_Validator.peqResMax, 1, this));
+    ui->peqTestValHighLE->setValidator(new QDoubleValidator(m_Validator.peqResMin, m_Validator.peqResMax, 1, this));
+    ui->peqTestCompLE->setValidator(new QDoubleValidator(m_Validator.peqCompMin, m_Validator.peqCompMax, 1, this));
+    ui->peqTestTimeLE->setValidator(new QDoubleValidator(m_Validator.peqTimeMin, m_Validator.peqTimeMax, 1, this));
+    ui->topfileBtn->setVisible(false);
+    ui->downfileBtn->setVisible(false);
 
     if(p_path.length() > 0)
     {
@@ -161,6 +166,17 @@ void programDialog::on_downfileBtn_clicked()
 
 void programDialog::on_deletefileBtn_clicked()
 {
+    if(ui->itemListWidget->rowCount() <= 0)
+        return;
+    if(!m_JsonData.testItemData.canConvert<TestGroupData>())
+        return;
+    TestGroupData *pData = reinterpret_cast<TestGroupData *>(m_JsonData.testItemData.data());
+    int currRow = ui->itemListWidget->currentRow();
+    if(currRow < pData->testDataList.size())
+    {
+        ui->itemListWidget->removeRow(currRow);
+        pData->testDataList.removeAt(currRow);
+    }
 
 }
 
@@ -175,7 +191,20 @@ void programDialog::on_itemListWidget_clicked(const QModelIndex &index)
 
 void programDialog::on_irTestSetLE_textEdited(const QString &arg1)
 {
-    GetIRtemData(ui->itemListWidget->currentRow())->fVolt = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float volt = arg1.toFloat();
+    if(volt < m_Validator.irVoltMin)
+    {
+        volt = m_Validator.irVoltMin;
+        ui->irTestSetLE->setText(QString::number(volt, 'f', 3));
+    }
+    else if(volt > m_Validator.irVoltMax)
+    {
+        volt = m_Validator.irVoltMax;
+        ui->irTestSetLE->setText(QString::number(volt, 'f', 3));
+    }
+    GetIRtemData(ui->itemListWidget->currentRow())->fVolt = volt;
 }
 
 void programDialog::on_irTestModeCBox_currentIndexChanged(int index)
@@ -185,27 +214,92 @@ void programDialog::on_irTestModeCBox_currentIndexChanged(int index)
 
 void programDialog::on_irTestValLowLE_textEdited(const QString &arg1)
 {
-    GetIRtemData(ui->itemListWidget->currentRow())->fIrLow = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float res = arg1.toFloat();
+    if(res < m_Validator.irResMin)
+    {
+        res = m_Validator.irResMin;
+        ui->irTestValLowLE->setText(QString::number(res, 'f', 3));
+    }
+    else if(res > m_Validator.irResMax)
+    {
+        res = m_Validator.irResMax;
+        ui->irTestValLowLE->setText(QString::number(res, 'f', 3));
+    }
+    GetIRtemData(ui->itemListWidget->currentRow())->fIrLow = res;
 }
 
 void programDialog::on_irTestValHighLE_textEdited(const QString &arg1)
 {
-    GetIRtemData(ui->itemListWidget->currentRow())->fIrHigh = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float res = arg1.toFloat();
+    if(res < m_Validator.irResMin)
+    {
+        res = m_Validator.irResMin;
+        ui->irTestValHighLE->setText(QString::number(res, 'f', 3));
+    }
+    else if(res > m_Validator.irResMax)
+    {
+        res = m_Validator.irResMax;
+        ui->irTestValHighLE->setText(QString::number(res, 'f', 3));
+    }
+    GetIRtemData(ui->itemListWidget->currentRow())->fIrHigh = res;
 }
 
 void programDialog::on_irTestCompLE_textEdited(const QString &arg1)
 {
-    GetIRtemData(ui->itemListWidget->currentRow())->fComp = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    int comp = arg1.toInt();
+    if(comp < m_Validator.irCompMin)
+    {
+        comp = m_Validator.irCompMin;
+        ui->irTestCompLE->setText(QString::number(comp));
+    }
+    else if(comp > m_Validator.irCompMax)
+    {
+        comp = m_Validator.irCompMax;
+        ui->irTestCompLE->setText(QString::number(comp));
+    }
+    GetIRtemData(ui->itemListWidget->currentRow())->fComp = comp;
 }
 
 void programDialog::on_irTestTimeLE_textEdited(const QString &arg1)
 {
-    GetIRtemData(ui->itemListWidget->currentRow())->fTestTime = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float time = arg1.toFloat();
+    if(time < m_Validator.irTimeMin)
+    {
+        time = m_Validator.irTimeMin;
+        ui->irTestTimeLE->setText(QString::number(time, 'f', 1));
+    }
+    else if(time > m_Validator.irTimeMax)
+    {
+        time = m_Validator.irTimeMax;
+        ui->irTestTimeLE->setText(QString::number(time, 'f', 1));
+    }
+    GetIRtemData(ui->itemListWidget->currentRow())->fTestTime = time;
 }
 
 void programDialog::on_peqTestSetLE_textEdited(const QString &arg1)
 {
-    GetPEQitemData(ui->itemListWidget->currentRow())->fCurrent = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float current = arg1.toFloat();
+    if(current < m_Validator.peqCurrentMin)
+    {
+        current = m_Validator.peqCurrentMin;
+        ui->peqTestSetLE->setText(QString::number(current, 'f', 2));
+    }
+    else if(current > m_Validator.peqCurrentMax)
+    {
+        current = m_Validator.peqCurrentMax;
+        ui->peqTestSetLE->setText(QString::number(current, 'f', 2));
+    }
+    GetPEQitemData(ui->itemListWidget->currentRow())->fCurrent = current;
 }
 
 void programDialog::on_peqTestModeCBox_currentIndexChanged(int index)
@@ -215,22 +309,74 @@ void programDialog::on_peqTestModeCBox_currentIndexChanged(int index)
 
 void programDialog::on_peqTestValLowLE_textEdited(const QString &arg1)
 {
-    GetPEQitemData(ui->itemListWidget->currentRow())->fIrLow = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float res = arg1.toFloat();
+    if(res < m_Validator.peqResMin)
+    {
+        res = m_Validator.peqResMin;
+        ui->peqTestValLowLE->setText(QString::number(res, 'f', 1));
+    }
+    else if(res > m_Validator.peqResMax)
+    {
+        res = m_Validator.peqResMax;
+        ui->peqTestValLowLE->setText(QString::number(res, 'f', 1));
+    }
+    GetPEQitemData(ui->itemListWidget->currentRow())->fIrLow = res;
 }
 
 void programDialog::on_peqTestValHighLE_textEdited(const QString &arg1)
 {
-    GetPEQitemData(ui->itemListWidget->currentRow())->fIrHigh = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float res = arg1.toFloat();
+    if(res < m_Validator.peqResMin)
+    {
+        res = m_Validator.peqResMin;
+        ui->peqTestValHighLE->setText(QString::number(res, 'f', 1));
+    }
+    else if(res > m_Validator.peqResMax)
+    {
+        res = m_Validator.peqResMax;
+        ui->peqTestValHighLE->setText(QString::number(res, 'f', 1));
+    }
+    GetPEQitemData(ui->itemListWidget->currentRow())->fIrHigh = res;
 }
 
 void programDialog::on_peqTestCompLE_textEdited(const QString &arg1)
 {
-    GetPEQitemData(ui->itemListWidget->currentRow())->fComp = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    int comp = arg1.toInt();
+    if(comp < m_Validator.peqCompMin)
+    {
+        comp = m_Validator.peqCompMin;
+        ui->peqTestCompLE->setText(QString::number(comp));
+    }
+    else if(comp > m_Validator.peqCompMax)
+    {
+        comp = m_Validator.peqCompMax;
+        ui->peqTestCompLE->setText(QString::number(comp));
+    }
+    GetPEQitemData(ui->itemListWidget->currentRow())->fComp = comp;
 }
 
 void programDialog::on_peqTestTimeLE_textEdited(const QString &arg1)
 {
-    GetPEQitemData(ui->itemListWidget->currentRow())->fTestTime = arg1.toFloat();
+    if(arg1.length() <= 0)
+        return;
+    float time = arg1.toFloat();
+    if(time < m_Validator.peqTimeMin)
+    {
+        time = m_Validator.peqTimeMin;
+        ui->peqTestTimeLE->setText(QString::number(time, 'f', 1));
+    }
+    else if(time > m_Validator.peqTimeMax)
+    {
+        time = m_Validator.peqTimeMax;
+        ui->peqTestTimeLE->setText(QString::number(time, 'f', 1));
+    }
+    GetPEQitemData(ui->itemListWidget->currentRow())->fTestTime = time;
 }
 
 void programDialog::loadTestData()
@@ -301,7 +447,7 @@ void programDialog::selectRow(const int p_row)
 
 void programDialog::clearAll()
 {
-    ui->itemListWidget->clear();
+    //ui->itemListWidget->clear();
     while(ui->itemListWidget->rowCount() > 0)
         ui->itemListWidget->removeRow(0);
     ui->itemStackedWidget->setCurrentIndex((int)TEST_ITEM::ENM_ITEM_UNKNOWN);
@@ -402,12 +548,12 @@ PeqTestData * programDialog::GetPEQitemData(const int p_row)
 
 void programDialog::irDefault(IrTestData *p_TestData)
 {
-    p_TestData->fVolt = 3.0;
+    p_TestData->fVolt = 0.5;
     p_TestData->nConnectMode = 0;
     p_TestData->fIrLow = 50;
     p_TestData->fIrHigh = 10000.0;
     p_TestData->fTestTime = 1.0;
-    p_TestData->fComp = 0;
+    p_TestData->fComp = 55000;
 }
 
 void programDialog::peqDefault(PeqTestData *p_TestData)
@@ -423,9 +569,29 @@ void programDialog::peqDefault(PeqTestData *p_TestData)
 void programDialog::groupDefault(GroupData *p_GroupData)
 {
     p_GroupData->nVoltFreq = 50;
-    p_GroupData->nFailStep = 0;
+    p_GroupData->nFailStep = 1;
     p_GroupData->nPowerType = 0;
     p_GroupData->nGroupConnect = 0;
+}
+
+void programDialog::initValidator()
+{
+    m_Validator.irVoltMin = 0.1;
+    m_Validator.irVoltMax = 1.0;
+    m_Validator.irResMin = 0;
+    m_Validator.irResMax = 55000;
+    m_Validator.irCompMin = 0;
+    m_Validator.irCompMax = 55000;
+    m_Validator.irTimeMin = 0.1;
+    m_Validator.irTimeMax = 999.9;
+    m_Validator.peqCurrentMin = 0.1;
+    m_Validator.peqCurrentMax = 32.0;
+    m_Validator.peqResMin = 0;
+    m_Validator.peqResMax = 1000;
+    m_Validator.peqCompMin = 0;
+    m_Validator.peqCompMax = 100;
+    m_Validator.peqTimeMin = 0.1;
+    m_Validator.peqTimeMax = 999.9;
 }
 
 void programDialog::on_itemTreeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)

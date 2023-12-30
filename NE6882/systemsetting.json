@@ -2,5 +2,5 @@
     "baudrate": 9600,
     "datatype": 1,
     "serialport": "COM4",
-    "testfile": "../json/123.json"
+    "testfile": "../json/1114.json"
 }

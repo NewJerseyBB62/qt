@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,12 @@
   <property name="windowTitle">
    <string>登录</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0" columnstretch="1,1,2,0">
+  <property name="styleSheet">
+   <string notr="true">#loginDialog{
+border-image: url(:/icon/loginbg.png);
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1" columnstretch="7,3,1,1">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -78,40 +83,79 @@
     <widget class="QWidget" name="taskWidget" native="true">
      <property name="minimumSize">
       <size>
-       <width>200</width>
+       <width>120</width>
        <height>40</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>200</width>
+       <width>120</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#minBtn{
+	border-image: url(:/icon/mins.png);
+}
+#minBtn:hover{
+	border-image: url(:/icon/nins1.png);
+}
+
+#closeBtn{
+	border-image: url(:/icon/closel.png);
+}
+#closeBtn:hover{
+	border-image: url(:/icon/closel1.png);
+}</string>
      </property>
      <widget class="QPushButton" name="minBtn">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>0</x>
         <y>0</y>
         <width>40</width>
         <height>40</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
-       <string>min</string>
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>70</width>
+        <height>70</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="closeBtn">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>60</x>
         <y>0</y>
         <width>40</width>
         <height>40</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
-       <string>close</string>
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -121,7 +165,7 @@
      <property name="minimumSize">
       <size>
        <width>400</width>
-       <height>550</height>
+       <height>480</height>
       </size>
      </property>
      <property name="maximumSize">
@@ -130,26 +174,41 @@
        <height>550</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">#loginWidget{
+background-color: rgba(255, 255, 255, 255);
+border-radius: 30px;
+}
+QLabel{
+color:#0E55A7;
+}
+QLineEdit{
+color:#0E55A7;
+}</string>
+     </property>
      <widget class="QLabel" name="userLab">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>90</y>
+        <x>20</x>
+        <y>95</y>
         <width>40</width>
         <height>40</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: url(:/icon/userl.png);</string>
+      </property>
       <property name="text">
-       <string>user</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLineEdit" name="userLE">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>70</x>
         <y>90</y>
-        <width>220</width>
-        <height>40</height>
+        <width>280</width>
+        <height>50</height>
        </rect>
       </property>
       <property name="font">
@@ -157,15 +216,22 @@
         <family>微软雅黑</family>
         <pointsize>16</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: url(:/icon/userlel.png);
+padding-left:15px;</string>
+      </property>
+      <property name="maxLength">
+       <number>20</number>
       </property>
      </widget>
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
         <x>80</x>
-        <y>90</y>
-        <width>60</width>
-        <height>40</height>
+        <y>70</y>
+        <width>80</width>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -174,21 +240,30 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>用户名</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="userLab_2">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>160</y>
+        <x>20</x>
+        <y>185</y>
         <width>40</width>
         <height>40</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: url(:/icon/waringl.png);</string>
+      </property>
       <property name="text">
-       <string>pwd</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLabel" name="pwdLab">
@@ -196,8 +271,8 @@
        <rect>
         <x>80</x>
         <y>160</y>
-        <width>60</width>
-        <height>40</height>
+        <width>80</width>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -206,17 +281,23 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>密   码</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QLineEdit" name="pwdLE">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>160</y>
-        <width>220</width>
-        <height>40</height>
+        <x>70</x>
+        <y>180</y>
+        <width>280</width>
+        <height>50</height>
        </rect>
       </property>
       <property name="font">
@@ -224,6 +305,13 @@
         <family>微软雅黑</family>
         <pointsize>16</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">padding-left:15px;
+border-image: url(:/icon/userlel.png);</string>
+      </property>
+      <property name="maxLength">
+       <number>16</number>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -232,8 +320,8 @@
      <widget class="QCheckBox" name="rememberPwdCB">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>240</y>
+        <x>80</x>
+        <y>280</y>
         <width>90</width>
         <height>30</height>
        </rect>
@@ -244,6 +332,21 @@
         <pointsize>12</pointsize>
         <underline>true</underline>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QCheckBox{
+color:#0E55A7;
+}
+QCheckBox::indicator{
+width: 20px;
+height: 20px;
+}
+QCheckBox::indicator:checked {
+border-image: url(:/icon/checks.png);
+}
+QCheckBox::indicator:unchecked {
+border-image: url(:/icon/check1s.png);
+}</string>
       </property>
       <property name="text">
        <string>记住密码</string>
@@ -262,7 +365,7 @@
       <property name="geometry">
        <rect>
         <x>260</x>
-        <y>240</y>
+        <y>280</y>
         <width>90</width>
         <height>30</height>
        </rect>
@@ -274,6 +377,9 @@
         <underline>true</underline>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color:#0E55A7;</string>
+      </property>
       <property name="text">
        <string>忘记密码?</string>
       </property>
@@ -284,9 +390,9 @@
      <widget class="QPushButton" name="loginBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
+        <x>70</x>
         <y>390</y>
-        <width>100</width>
+        <width>280</width>
         <height>40</height>
        </rect>
       </property>
@@ -296,16 +402,30 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">#loginBtn{
+border-radius: 10px;
+color: #FFFFFF;
+background-color:#0E55A7;
+}
+#loginBtn:hover{
+color: #0E55A7;
+background-color: rgba(210, 210, 210, 200);
+}</string>
+      </property>
       <property name="text">
        <string>登录</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="registBtn">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>390</y>
-        <width>100</width>
+        <x>130</x>
+        <y>430</y>
+        <width>140</width>
         <height>40</height>
        </rect>
       </property>
@@ -315,10 +435,31 @@
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">#registBtn{
+border-radius: 10px;
+color: #FFFFFF;
+background-color: rgba(195, 195, 195, 200);
+}
+#registBtn:hover{
+color: #161616;
+background-color: rgb(255, 255, 255);
+}</string>
+      </property>
       <property name="text">
        <string>注册</string>
       </property>
      </widget>
+     <zorder>userLab</zorder>
+     <zorder>userLE</zorder>
+     <zorder>label</zorder>
+     <zorder>userLab_2</zorder>
+     <zorder>pwdLE</zorder>
+     <zorder>rememberPwdCB</zorder>
+     <zorder>forgetPwdBtn</zorder>
+     <zorder>loginBtn</zorder>
+     <zorder>registBtn</zorder>
+     <zorder>pwdLab</zorder>
     </widget>
    </item>
    <item row="1" column="3">

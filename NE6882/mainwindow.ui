@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,6 +20,17 @@
    <string>主界面</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="minimumSize">
+    <size>
+     <width>1280</width>
+     <height>720</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#centralWidget{
+border-image: url(:/icon/bg3.jpg);
+}</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <property name="spacing">
      <number>0</number>
@@ -40,7 +51,7 @@
      <widget class="QWidget" name="taskWidget" native="true">
       <property name="minimumSize">
        <size>
-        <width>200</width>
+        <width>1280</width>
         <height>40</height>
        </size>
       </property>
@@ -49,6 +60,21 @@
         <width>16777215</width>
         <height>40</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#minBtn{
+	border-image: url(:/icon/mins.png);
+}
+#minBtn:hover{
+	border-image: url(:/icon/nins1.png);
+}
+
+#closeBtn{
+	border-image: url(:/icon/closel.png);
+}
+#closeBtn:hover{
+	border-image: url(:/icon/closel1.png);
+}</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="spacing">
@@ -94,7 +120,16 @@
           </size>
          </property>
          <property name="text">
-          <string>PushButton</string>
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>70</width>
+           <height>70</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -113,7 +148,16 @@
           </size>
          </property>
          <property name="text">
-          <string>PushButton</string>
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -124,7 +168,7 @@
      <widget class="QWidget" name="mainWidget" native="true">
       <property name="minimumSize">
        <size>
-        <width>854</width>
+        <width>1280</width>
         <height>480</height>
        </size>
       </property>
@@ -154,7 +198,7 @@
         <widget class="QLabel" name="nameLab">
          <property name="minimumSize">
           <size>
-           <width>854</width>
+           <width>1280</width>
            <height>80</height>
           </size>
          </property>
@@ -168,7 +212,12 @@
           <font>
            <family>微软雅黑</family>
            <pointsize>24</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(0, 0, 0);</string>
          </property>
          <property name="text">
           <string>NE6882控制软件</string>
@@ -182,23 +231,42 @@
         <widget class="QWidget" name="mainBtnWidget" native="true">
          <property name="minimumSize">
           <size>
-           <width>854</width>
+           <width>1280</width>
            <height>240</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+border-image: url(:/icon/mode1.png);
+	background-color: rgba(220, 220, 220, 150);
+color: rgb(0, 0, 0);
+}
+QPushButton:hover{
+color: rgb(0, 170, 255);
+	border-image: url(:/icon/mode2.png);
+background-color: rgba(255, 255, 255, 150);
+}
+
+#testBtn{
+	qproperty-icon: url(:/icon/menul.png);
+}
+#testBtn:hover{
+	qproperty-icon: url(:/icon/menus1.png);
+}</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="testBtn">
             <property name="minimumSize">
              <size>
-              <width>160</width>
-              <height>160</height>
+              <width>240</width>
+              <height>60</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>160</width>
-              <height>160</height>
+              <height>50</height>
              </size>
             </property>
             <property name="sizeIncrement">
@@ -207,8 +275,25 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>微软雅黑</family>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>开始测试</string>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -216,18 +301,42 @@
            <widget class="QPushButton" name="programBtn">
             <property name="minimumSize">
              <size>
-              <width>160</width>
-              <height>160</height>
+              <width>240</width>
+              <height>60</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>160</width>
-              <height>160</height>
+              <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>微软雅黑</family>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>程序编辑</string>
+            </property>
+            <property name="icon">
+             <iconset resource="res.qrc">
+              <normaloff>:/icon/filel.png</normaloff>:/icon/filel.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -235,18 +344,39 @@
            <widget class="QPushButton" name="reportBtn">
             <property name="minimumSize">
              <size>
-              <width>160</width>
-              <height>160</height>
+              <width>240</width>
+              <height>60</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>160</width>
-              <height>160</height>
+              <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>微软雅黑</family>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>测试数据</string>
+            </property>
+            <property name="icon">
+             <iconset resource="res.qrc">
+              <normaloff>:/icon/addfilel.png</normaloff>:/icon/addfilel.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -254,18 +384,39 @@
            <widget class="QPushButton" name="settingBtn">
             <property name="minimumSize">
              <size>
-              <width>160</width>
-              <height>160</height>
+              <width>240</width>
+              <height>60</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>160</width>
-              <height>160</height>
+              <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>微软雅黑</family>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>系统设置</string>
+            </property>
+            <property name="icon">
+             <iconset resource="res.qrc">
+              <normaloff>:/icon/setl.png</normaloff>:/icon/setl.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -290,6 +441,8 @@
           <font>
            <family>微软雅黑</family>
            <pointsize>14</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
@@ -307,6 +460,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -4,8 +4,10 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <windows.h>
+#include <QDebug>
+#include <warningdialog.h>
 
-testDialog::testDialog(QWidget *parent) :
+testDialog:: testDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::testDialog),
     m_Thread(nullptr),
@@ -24,6 +26,7 @@ testDialog::testDialog(QWidget *parent) :
     ui->infoTableWidget->setColumnWidth(0, 85);
     ui->infoTableWidget->setColumnWidth(1, 85);
     ui->infoTableWidget->setColumnWidth(2, 80);
+    ui->testTableWidget->setAlternatingRowColors(true);
 
     m_ItemNameMap.insert(TEST_ITEM::ENM_ITEM_IR, QStringLiteral("绝缘"));
     m_ItemNameMap.insert(TEST_ITEM::ENM_ITEM_PEQ, QStringLiteral("电位均衡"));
@@ -68,12 +71,41 @@ void testDialog::slotRecv(const NE6882Msg p_data)
 {
     switch(p_data.cmdType)
     {
+        case  NE6882_CMD::CMD_SET:
+        {
+            if(p_data.testState == NE6882_STATE::STATE_MAX)
+            {
+                setTestGroup();
+                //enableBtn(true);
+            }
+            else
+            {
+                WarningDialog errObj("串口通讯失败,请检查下位机");
+                errObj.show();
+                errObj.exec();
+                //QMessageBox::information(this, "错误", "串口通讯失败", QMessageBox::Yes);
+            }
+            break;
+        }
         case NE6882_CMD::CMD_GET_IR:
         case NE6882_CMD::CMD_GET_PEQ:
             if(m_ResultList.size() <= p_data.nStepNo)
-                m_ResultList.append(p_data);
+            {
+                if(p_data.testState == NE6882_STATE::STATE_STEP_NG ||
+                        p_data.testState ==NE6882_STATE::STATE_STEP_OK)
+                    m_ResultList.append(p_data);
+            }
+            //qDebug()<<"zzp step " << p_data.nStepNo <<"state "
+            //       << (int)p_data.groupState << "step state " << (int)p_data.testState;
             updateTestdata(p_data);
             break;
+        case NE6882_CMD::CMD_SET_IR:
+        case NE6882_CMD::CMD_SET_PEQ:
+        {
+            if(p_data.testState == NE6882_STATE::STATE_MAX)
+                enableBtn(true);
+            break;
+        }
         default:
             break;
     }
@@ -92,11 +124,26 @@ void testDialog::on_closeBtn_clicked()
 
 void testDialog::on_starttestBtn_clicked()
 {
+    int rowCnt = ui->testTableWidget->rowCount();
+    if(rowCnt <= 0)
+        return;
     NE6882Msg msg;
     msg.cmdType = NE6882_CMD::CMD_START;
     msg.msgType = DEF_MSGTYPE_REQUEST;
-    emit sigSendCmd(msg);
+    for(int i = 0; i < rowCnt; i++)
+    {
+        if(ui->testTableWidget->item(i, 2) != nullptr)
+            ui->testTableWidget->item(i, 2)->setText("");
+        else
+            ui->testTableWidget->setItem(i, 2, new QTableWidgetItem(""));
+        if(ui->testTableWidget->item(i, 3) != nullptr)
+            ui->testTableWidget->item(i, 3)->setText("");
+        else
+            ui->testTableWidget->setItem(i, 3, new QTableWidgetItem(""));
+    }
     ui->testTableWidget->selectRow(0);
+    emit sigSendCmd(msg);
+
     m_ResultList.clear();
     clearTestdata();
 }
@@ -132,7 +179,10 @@ int testDialog::initTest()
     if(sysData.strSerialPort.length() <= 0 || sysData.nBaudrate < 4800)
     {
         enableBtn(false);
-        QMessageBox::information(this, "错误", "串口配置错误", QMessageBox::Yes);
+        //QMessageBox::information(this, "错误", "串口配置错误", QMessageBox::Yes);
+        WarningDialog errObj("无法打开串口,请检查");
+        errObj.show();
+        errObj.exec();
         return DEF_JSONERROR_OPEN;
     }
     m_Thread = new QThread();
@@ -143,7 +193,7 @@ int testDialog::initTest()
     connect(this, &testDialog::sigSendCmd, m_ThreadObj, &TestThread::slotSendCmd, Qt::QueuedConnection);
     connect(m_ThreadObj, &TestThread::sigRecv, this, &testDialog::slotRecv, Qt::QueuedConnection);
     m_Thread->start();
-    if(m_ThreadObj->initThread(sysData.strSerialPort, sysData.nBaudrate, 500) != 0)
+    if(m_ThreadObj->initThread(sysData.strSerialPort, sysData.nBaudrate, 300) != 0)
     {
         m_Thread->quit();
         m_Thread->wait();
@@ -155,14 +205,10 @@ int testDialog::initTest()
         QMessageBox::information(this, "错误", "串口打开失败", QMessageBox::Yes);
         return DEF_JSONERROR_OPEN;
     }
-    emit sigStartRun();
 
-    setTestSet();
     jsonObj.readJsonfile(m_currentFile, m_TestData);
+    setTestSet();
     loadTestList();
-    setTestGroup();
-    Sleep(300);
-    enableBtn(true);
     //connect(m_SerialObj, &QSerialPort::readyRead, this, &SerialThread::SlotRecvData);
 }
 
@@ -203,6 +249,9 @@ void testDialog::setTestGroup()
         {
             int nRet = Json2Msg(m_TestData.testItemData.value<TestGroupData>().testDataList.at(i).testData,
                      msg);
+            msg.nStepNo = i;
+            if(i == num - 1)
+            msg.testState = NE6882_STATE::STATE_MAX;
             if(nRet == 0)
                 emit sigSendCmd(msg);
         }
@@ -240,7 +289,7 @@ int testDialog::Json2Msg(const QVariant &p_src,  NE6882Msg &p_data)
 
 void testDialog::loadTestList()
 {
-    ui->testTableWidget->clear();
+    //ui->testTableWidget->clear();
     while(ui->testTableWidget->rowCount() > 0)
         ui->testTableWidget->removeRow(0);
     initHorHead();
@@ -302,18 +351,27 @@ void testDialog::updateTestdata(const NE6882Msg &p_data)
         int nVolt = p_data.fVolt * 1000;
         ui->outputValLab->setText(QString::number(nVolt));
         ui->outputUnitLab->setText("V");
-        ui->testoutValLab->setText(QString::number(p_data.fTestVal, 'g', 3));
-        ui->testoutUnitLab->setText("Mohm");
-        ui->testtimeValLab->setText(QString::number(p_data.fTestTime, 'g', 1));
+        if(p_data.nIrUnit == 3 && p_data.fTestVal >= 55)
+            ui->testoutValLab->setText(">55");
+        else
+            ui->testoutValLab->setText(QString::number(p_data.fTestVal, 'f', 3));
+        if(p_data.nIrUnit == 2)
+            ui->testoutUnitLab->setText("Mohm");
+        else if(p_data.nIrUnit == 3)
+            ui->testoutUnitLab->setText("Gohm");
+        ui->testtimeValLab->setText(QString::number(p_data.fTestTime, 'f', 1));
         ui->teststateLab->setText(m_TeststateMap.value(p_data.testState));
     }
     else if(p_data.cmdType == NE6882_CMD::CMD_GET_PEQ)
     {
-        ui->outputValLab->setText(QString::number(p_data.fCurrent, 'g', 3));
+        ui->outputValLab->setText(QString::number(p_data.fCurrent, 'f', 2));
         ui->outputUnitLab->setText("A");
-        ui->testoutValLab->setText(QString::number(p_data.fTestVal, 'g', 3));
+        if(p_data.fTestVal >= 1000)
+            ui->testoutValLab->setText(">1000");
+        else
+            ui->testoutValLab->setText(QString::number(p_data.fTestVal, 'f', 2));
         ui->testoutUnitLab->setText("mohm");
-        ui->testtimeValLab->setText(QString::number(p_data.fTestTime, 'g', 1));
+        ui->testtimeValLab->setText(QString::number(p_data.fTestTime, 'f', 1));
         ui->teststateLab->setText(m_TeststateMap.value(p_data.testState));
     }
     if(p_data.testState == NE6882_STATE::STATE_STEP_TESTING)
@@ -321,24 +379,37 @@ void testDialog::updateTestdata(const NE6882Msg &p_data)
         ui->testTableWidget->setItem(p_data.nStepNo, 2, new QTableWidgetItem(
                                          m_TeststateMap.value(NE6882_STATE::STATE_STEP_TESTING)));
         ui->testTableWidget->setItem(p_data.nStepNo, 3, new QTableWidgetItem(""));
+        ui->starttestBtn->setDisabled(true);
     }
-    else if(p_data.groupState == NE6882_STATE::STATE_STEP_NG)
+    else if(p_data.testState == NE6882_STATE::STATE_STEP_NG)
     {
         if(p_data.groupState == NE6882_STATE::STATE_GROUP_STEP)
         {
             ui->testTableWidget->setItem(p_data.nStepNo, 2, new QTableWidgetItem(
                                              m_TeststateMap.value(NE6882_STATE::STATE_GROUP_STEP)));
+            ui->starttestBtn->setDisabled(false);
         }
+        else if(p_data.groupState == NE6882_STATE::STATE_GROUP_TESTOVER)
+            ui->starttestBtn->setDisabled(false);
+        else
+            ui->testTableWidget->setItem(p_data.nStepNo, 2, new QTableWidgetItem(
+                                             m_TeststateMap.value(NE6882_STATE::STATE_STEP_NULL)));
         ui->testTableWidget->setItem(p_data.nStepNo, 3, new QTableWidgetItem(
                                          m_TeststateMap.value(NE6882_STATE::STATE_STEP_NG)));
     }
-    else if(p_data.groupState == NE6882_STATE::STATE_STEP_OK)
+    else if(p_data.testState == NE6882_STATE::STATE_STEP_OK)
     {
         if(p_data.groupState == NE6882_STATE::STATE_GROUP_STEP)
         {
             ui->testTableWidget->setItem(p_data.nStepNo, 2, new QTableWidgetItem(
                                              m_TeststateMap.value(NE6882_STATE::STATE_GROUP_STEP)));
+            ui->starttestBtn->setDisabled(false);
         }
+        else if(p_data.groupState == NE6882_STATE::STATE_GROUP_TESTOVER)
+            ui->starttestBtn->setDisabled(false);
+        else
+            ui->testTableWidget->setItem(p_data.nStepNo, 2, new QTableWidgetItem(
+                                             m_TeststateMap.value(NE6882_STATE::STATE_STEP_NULL)));
         ui->testTableWidget->setItem(p_data.nStepNo, 3, new QTableWidgetItem(
                                          m_TeststateMap.value(NE6882_STATE::STATE_STEP_OK)));
     }

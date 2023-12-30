@@ -1,5 +1,5 @@
 #include "testthread.h"
-
+#include <QDebug>
 
 static void callbackData(const NE6882Msg p_data, unsigned int p_User)
 {

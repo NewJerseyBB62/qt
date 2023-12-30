@@ -1,6 +1,6 @@
 #include "ne6882serial.h"
 #include <QtMath>
-//#include <QDateTime>
+#include <QDateTime>
 #include <QDebug>
 
 SerialThread::SerialThread() :
@@ -8,7 +8,10 @@ SerialThread::SerialThread() :
     m_SerialObj(nullptr),
     m_Func(nullptr),
     m_User(0),
-    m_ReadTimeout(500)
+    m_ReadTimeout(300),
+    m_AckAttempts(0),
+    m_RecvState(false),
+    m_FirstCmd(true)
 {
 
 }
@@ -35,7 +38,21 @@ int SerialThread::InitSerialThread(const QString& p_port, const int p_baud, cons
         m_SerialObj = nullptr;
         return 1;
     }
+    sendACK();
+    //msleep(300);
     return 0;
+}
+
+void SerialThread::uninitSerial()
+{
+    if(m_SerialObj != nullptr)
+    {
+        m_SerialObj->close();
+        delete m_SerialObj;
+        m_SerialObj = nullptr;
+    }
+    m_RecvData.clear();
+
 }
 
 int SerialThread::SendCmd(const NE6882Msg &p_data)
@@ -52,14 +69,32 @@ int SerialThread::SetThreadRun(bool p_state)
     m_Mutex.lock();
     m_ThreadRun = p_state;
     m_Mutex.unlock();
+    msleep(100);
 }
 
 void SerialThread::SlotRecvData()
 {
     if(m_SerialObj == nullptr)
         return;
-    QByteArray readData = m_SerialObj->readAll();
-    ParseRecvCmd(readData);
+    if(m_RecvState)
+    {
+        m_SerialObj->waitForReadyRead(30);
+        m_RecvData.append(m_SerialObj->readAll());
+        //qDebug()<< "zzp recv slot: " << m_RecvData.toHex() << " id " << QThread::currentThreadId();
+        m_MutexRecv.lock();
+        NE6882Msg data;
+        data.cmdType = NE6882_CMD::CMD_REQUEST;
+        data.testState = NE6882_STATE::STATE_UNKNOWN;
+        int nRet = ParseRecvCmd(data);
+        m_MutexRecv.unlock();
+        if(nRet == 2)
+        {
+            m_MutexSend.lock();
+            sendACK();
+            m_MutexSend.unlock();
+        }
+    }
+
 }
 
 void SerialThread::run()
@@ -70,73 +105,110 @@ void SerialThread::run()
         {
             if(m_CmdList.size() > 0)
             {
-                while(m_AckAttempts < 3)
+                QByteArray sendData;
+                int nRecvLen;
+                sendData.clear();
+                NE6882Msg currData = m_CmdList.first();
+                int nRet = ParseSendCmd(currData, &sendData, nRecvLen);
+                if(nRet != 0)
                 {
-                    QByteArray sendData;
-                    QByteArray recvData;
-                    int nRecvLen;
-                    int nRet = ParseSendCmd(m_CmdList.first(), &sendData, nRecvLen);
-                    if(nRet != 0)
+                    m_CmdList.pop_front();
+                    m_AckAttempts = 0;
+                    msleep(50);
+                    continue;
+                }
+                else
+                {
+                    _RESEND:
+                    int nCnt = 0;
+                    int maxCnt = (500 - m_ReadTimeout) / 10;
+                    m_MutexSend.lock();
+
+                    int nLen = m_SerialObj->write(sendData);
+                    m_SerialObj->waitForBytesWritten(100);
+
+                    m_MutexSend.unlock();
+                    //qDebug()<<" zzp send: " << sendData.toHex() << "len " << nLen;
+                    //quint64 msec = QDateTime::currentDateTime().toMSecsSinceEpoch();
+                    //if(m_SerialObj->waitForReadyRead(1000))//m_ReadTimeout))
+                    //quint64 msec = QDateTime::currentDateTime().toMSecsSinceEpoch();
+                    if(m_SerialObj->waitForReadyRead(getFirstTimeout()))
                     {
-                        m_CmdList.pop_front();
-                        m_AckAttempts = 0;
-                        break;
-                    }
-                    else
-                    {
-                        int nCnt = 0;
-                        int maxCnt = m_ReadTimeout / 10;
-                        m_SerialObj->write(sendData);
-                        //quint64 msec = QDateTime::currentDateTime().toMSecsSinceEpoch();
-                        while(recvData.size() < nRecvLen)
+                        m_MutexRecv.lock();
+                        m_RecvData.append(m_SerialObj->readAll());
+                        m_MutexRecv.unlock();
+                        while(m_RecvData.length() < nRecvLen)
                         {
-                            recvData.append(m_SerialObj->readAll());
+                            m_MutexRecv.lock();
+                            m_RecvData.append(m_SerialObj->readAll());
+                            m_MutexRecv.unlock();
                             nCnt++;
                             if(nCnt > maxCnt)
                             {
                                 m_AckAttempts++;
-                                continue;
+                                break;
                             }
                             msleep(10);
                         }
-                        int nRet = ParseRecvCmd(recvData);
-                        if(nRet != 0)
+                    }
+                    else
+                    {
+                        //qDebug()<<" zzp recv time out" << QDateTime::currentDateTime().toMSecsSinceEpoch() - msec <<
+                        m_SerialObj->readAll();
+                        m_SerialObj->flush();
+                        m_AckAttempts++;
+                    }
+                    //qDebug()<<" zzp recv thread: " << m_RecvData.toHex() << "len : " << m_RecvData.length() << "id " << QThread::currentThreadId();
+                    if(m_AckAttempts >= 3)
+                    {
+                        if(currData.cmdType == NE6882_CMD::CMD_SET)
                         {
-                            if(nRet == 2)
+                            NE6882Msg data;
+                            data.msgType = DEF_MSGTYPE_RESULT;
+                            data.cmdType = NE6882_CMD::CMD_SET;
+                            data.testState = NE6882_STATE::STATE_UNKNOWN;
+                            if(m_Func != nullptr)
                             {
-                                QByteArray result;
-                                result.append(0x49);
-                                result.append((char)0x00);
-                                result.append(0x01);
-                                result.append(0x08);
-                                result.append((char)0x00);
-                                result.append(0x16);
-                                result.append(0x44);
-                                result.append(0xAD);
-                                m_SerialObj->write(result);
-                                m_AckAttempts = 0;
-                                m_CmdList.pop_front();
-                                break;
-                            }
-                            else
-                            {
-                                m_AckAttempts++;
-                                continue;
+                                m_Func(data, m_User);
                             }
                         }
+                        m_AckAttempts = 0;
+                        m_CmdList.pop_front();
+                        continue;
                     }
-                }
-                if(m_AckAttempts >= 3)
-                {
+                    if(m_RecvData.size() < nRecvLen)
+                    {
+                        goto _RESEND;
+                    }
+                    m_MutexRecv.lock();
+                    int nRet = ParseRecvCmd(currData);
+                    m_MutexRecv.unlock();
+                    if(nRet != 0)
+                    {
+                        m_AckAttempts++;
+                        goto _RESEND;
+                    }
+                    if(currData.cmdType == NE6882_CMD::CMD_START)
+                    {
+                        m_RecvData.clear();
+                        m_RecvState = true;
+                    }
+                    else if(currData.cmdType == NE6882_CMD::CMD_STOP)
+                    {
+                        m_RecvData.clear();
+                        m_RecvState = false;
+                    }
                     m_AckAttempts = 0;
                     m_CmdList.pop_front();
+                    msleep(30);
+                    continue;
                 }
             }
             msleep(50);
         }
         else
         {
-            msleep(100);
+            break;
         }
     }
 }
@@ -174,7 +246,12 @@ int SerialThread::ParseSendCmd(const NE6882Msg &p_data, QByteArray *p_senddata, 
         }
         case NE6882_CMD::CMD_SET:
         {
-            p_senddata->append((char)0x0F);
+            p_senddata->clear();
+            p_senddata->append((char)0x49);
+            p_senddata->append((char)0xFF);
+            p_senddata->append((char)0xFF);
+            p_senddata->append((char)0x10);
+            p_senddata->append((char)0x00);
             p_senddata->append((char)0x03);
             p_senddata->append((char)0x00);
             p_senddata->append((char)0x00);
@@ -195,7 +272,7 @@ int SerialThread::ParseSendCmd(const NE6882Msg &p_data, QByteArray *p_senddata, 
             p_senddata->append((char)0x03);
             p_senddata->append((char)0x63);
             p_senddata->append((char)0x01);
-            p_senddata->append((char)0x00);
+            p_senddata->append(p_data.nStepNo);
             p_senddata->append((char)0x03);
             quint16 volt = p_data.fVolt * 1000;
             p_senddata->append((quint8)((volt >> 8) & 0xFF));
@@ -229,7 +306,7 @@ int SerialThread::ParseSendCmd(const NE6882Msg &p_data, QByteArray *p_senddata, 
             p_senddata->append((char)0x03);
             p_senddata->append((char)0x63);
             p_senddata->append((char)0x01);
-            p_senddata->append((char)0x00);
+            p_senddata->append(p_data.nStepNo);
             p_senddata->append((char)0x09);
             quint16 nCurrent = p_data.fCurrent * 100;
             p_senddata->append((quint8)(nCurrent >> 8) & 0xFF);
@@ -318,18 +395,152 @@ int SerialThread::ParseSendCmd(const NE6882Msg &p_data, QByteArray *p_senddata, 
     return 0;
 }
 
-int SerialThread::ParseRecvCmd(const QByteArray &p_data)
+int SerialThread::ParseRecvCmd(const NE6882Msg &p_cmd)
 {
-    int sum;
-    quint8 sumChk;
-    for(int i = 0; i < p_data.size() - 1; i++)
-    {
-        sum += p_data.at(i);
-    }
-    sumChk = sum & 0xFF;
-    if(sumChk != p_data.at(p_data.size() - 1))
-        return 1;
+    int len = 0;
+    QByteArray head;
     NE6882Msg data;
+    head.append(0x49);
+    head.append(0x80);
+    head.append(0x01);
+    if(m_RecvData.length() < 10)
+         return 1;
+    if(!m_RecvData.contains(head))
+        return 1;
+    m_RecvData = m_RecvData.mid(m_RecvData.indexOf(head));
+    len = m_RecvData.at(3);
+    if(m_RecvData.length() < len + 1)
+        return 1;
+    //if(CheckSum(p_data) != (quint8)p_data.at(p_data.size() - 2))
+    //    return 1;
+    if(m_RecvData.at(5) == 0x16)
+    {
+        m_RecvData = m_RecvData.right(m_RecvData.length() - len - 1);
+        m_MutexSend.lock();
+        sendACK();
+        m_MutexSend.unlock();
+        return ParseRecvCmd(p_cmd);
+    }
+    switch(p_cmd.cmdType)
+    {
+        case NE6882_CMD::CMD_SET:
+        {
+            data.msgType = DEF_MSGTYPE_RESULT;
+            data.cmdType = NE6882_CMD::CMD_SET;
+            data.testState = NE6882_STATE::STATE_MAX;
+            m_RecvData = m_RecvData.right(m_RecvData.length() - len - 1);
+            if(m_Func != nullptr)
+            {
+                m_Func(data, m_User);
+            }
+            break;
+        }
+        case NE6882_CMD::CMD_START:
+        case NE6882_CMD::CMD_STOP:
+        case NE6882_CMD::CMD_SET_IR:
+        case NE6882_CMD::CMD_SET_PEQ:
+        {
+            len = 0x0A;
+            int ret = 0;
+            if(m_RecvData.at(6) == 0x01)
+                ret = 0;
+            else
+                ret = 1;
+            if(p_cmd.testState == NE6882_STATE::STATE_MAX)
+            {
+                data.msgType = DEF_MSGTYPE_RESULT;
+                data.cmdType = p_cmd.cmdType;
+                data.testState = NE6882_STATE::STATE_MAX;
+                if(m_Func != nullptr)
+                {
+                    m_Func(data, m_User);
+                }
+            }
+            m_RecvData = m_RecvData.right(m_RecvData.length() - len - 1);
+            return ret;
+        }
+        case NE6882_CMD::CMD_REQUEST:
+        {
+            len = m_RecvData.at(3);
+            if(m_RecvData.at(5) == 0x07)
+            {
+                data.nStepNo = m_RecvData.at(7);
+                switch((m_RecvData.at(9) >> 4) & 0x0F)
+                {
+                    case 2:
+                        data.groupState = NE6882_STATE::STATE_GROUP_TESTING;
+                        break;
+                    case 3:
+                        data.groupState = NE6882_STATE::STATE_GROUP_TESTOVER;
+                        break;
+                    case 5:
+                        data.groupState = NE6882_STATE::STATE_GROUP_STEP;
+                        break;
+                    default:
+                        data.groupState = NE6882_STATE::STATE_GROUP_IDLE;
+                        break;
+                }
+                switch(m_RecvData.at(9) & 0x0F)
+                {
+                    case 4:
+                        data.testState = NE6882_STATE::STATE_STEP_TESTING;
+                        break;
+                    case 5:
+                        data.testState = NE6882_STATE::STATE_STEP_OK;
+                        break;
+                    case 6:
+                        data.testState = NE6882_STATE::STATE_STEP_NG;
+                        break;
+                    case 7:
+                        data.testState = NE6882_STATE::STATE_STEP_NULL;
+                        break;
+                    default:
+                        data.testState = NE6882_STATE::STATE_STEP_ERROR;
+                        break;
+                }
+                if(m_RecvData.at(8) == 0x03)
+                {
+                    data.cmdType = NE6882_CMD::CMD_GET_IR;
+                    quint16 volt = (quint8)m_RecvData.at(10) * 256 + (quint8)m_RecvData.at(11);
+                    data.fVolt = volt / 1000.0;
+                    if(((m_RecvData.at(12) & 0x10) >> 4) == 1)
+                        data.nIrUnit = 3;
+                    else
+                        data.nIrUnit = 2;
+                    data.fTestVal = ((m_RecvData.at(12) & 0x0F) * 4096 + (quint8)m_RecvData.at(13) * 256 + (quint8)m_RecvData.at(14)) / qPow(10, ((m_RecvData.at(12) >> 5) & 0x07));
+                    data.fTestTime = ((m_RecvData.at(21) & 0x3F) * 256 + (quint8)m_RecvData.at(22)) / qPow(10, ((m_RecvData.at(21) >> 6) & 0x03));
+
+                }
+                else if(m_RecvData.at(8) == 0x09)
+                {
+                    data.nIrUnit = 0;
+
+                    data.cmdType = NE6882_CMD::CMD_GET_PEQ;
+                    data.fCurrent = ((m_RecvData.at(10) & 0x3F) * 256 + (quint8)m_RecvData.at(11)) / qPow(10, ((m_RecvData.at(10) >> 6) & 0x03));
+                    data.fTestVal = ((m_RecvData.at(12) & 0x3F) * 256 + (quint8)m_RecvData.at(13)) / qPow(10, ((m_RecvData.at(12) >> 6) & 0x03));
+                    data.fTestTime = ((m_RecvData.at(14) & 0x3F) * 256 + (quint8)m_RecvData.at(15)) / qPow(10, ((m_RecvData.at(14) >> 6) & 0x03));
+                }
+                m_RecvData = m_RecvData.right(m_RecvData.length() - len - 1);
+                if(m_Func != nullptr)
+                {
+                    m_Func(data, m_User);
+                }
+                return 0;
+            }
+            else
+                return 1;
+        }
+    }
+#if 0
+    if(!m_RecvData.contains(head))
+        return 1;
+    m_RecvData = m_RecvData.mid(m_RecvData.indexOf(head));
+    if(m_RecvData.length() < len - 4)
+        return 1;
+
+    if(p_cmd)
+
+
     switch(p_data.at(5))
     {
         case 0x02:
@@ -404,15 +615,16 @@ int SerialThread::ParseRecvCmd(const QByteArray &p_data)
     {
         m_Func(data, m_User);
     }
+#endif
     return 0;
 }
 
 quint8 SerialThread::CheckSum(const QByteArray &p_data)
 {
-    quint16 sum;
-    for(int i = 0; i < p_data.size(); i++)
+    quint16 sum = 0;
+    for(int i = 0; i < p_data.length(); i++)
     {
-        sum += p_data.at(i);
+        sum += (quint8)p_data.at(i);
     }
     return (quint8)(sum & 0xFF);
 }
@@ -482,6 +694,32 @@ NE6882_STATE SerialThread::GetStepState(int p_state)
     }
 }
 
+void SerialThread::sendACK()
+{
+    QByteArray result;
+    result.append(0x49);
+    result.append((char)0x00);
+    result.append(0x01);
+    result.append(0x08);
+    result.append((char)0x00);
+    result.append(0x16);
+    result.append(0x01);
+    result.append(0x44);
+    result.append(0xAD);
+    m_SerialObj->write(result);
+    m_SerialObj->waitForBytesWritten(50);
+}
+
+int SerialThread::getFirstTimeout()
+{
+    if(m_FirstCmd)
+    {
+        m_FirstCmd = false;
+        return m_ReadTimeout + 700;
+    }
+    return m_ReadTimeout;
+}
+
 
 Ne6882serial::Ne6882serial() :
     m_SerialObj(nullptr)
@@ -518,9 +756,8 @@ void Ne6882serial::StopRun()
     //    return;
     if(m_SerialObj == nullptr)
         return;
-    m_SerialObj->exit();
-    //m_pThreadObj->quit();
-    //m_pThreadObj->wait();
+    m_SerialObj->quit();
+    m_SerialObj->wait();
 }
 
 int Ne6882serial::SendCmd(const NE6882Msg p_data)
@@ -543,7 +780,10 @@ void Ne6882serial::CloseNe6882Serial()
 //    }
     if(m_SerialObj != nullptr)
     {
-
+        m_SerialObj->SetThreadRun(false);
+        m_SerialObj->uninitSerial();
+        m_SerialObj->quit();
+        m_SerialObj->wait();
         delete m_SerialObj;
         m_SerialObj = nullptr;
     }
