@@ -38,11 +38,13 @@ int Readthread::SlotStart()
 {
     if(m_SerialObj == nullptr)
         return 1;
-    if(m_SerialObj->isOpen())
-        return 0;
-    m_SerialObj->close();
-    if(!m_SerialObj->open(QIODevice::ReadWrite))
-        return 1;
+    if(!m_SerialObj->isOpen())
+    {
+        m_SerialObj->close();
+        m_SerialObj->setPortName(m_Serialport);
+        if(!m_SerialObj->open(QIODevice::ReadWrite))
+            return 1;
+    }
     m_threadRun = true;
     this->start();
     return 0;
@@ -56,6 +58,12 @@ void Readthread::SlotStop()
     if(m_SerialObj == nullptr)
         return;
     m_SerialObj->close();
+}
+
+void Readthread::SetSerialport(const QString &serialport, const int &baud)
+{
+    m_Serialport = serialport;
+    m_Baudrate = baud;
 }
 
 void Readthread::run()

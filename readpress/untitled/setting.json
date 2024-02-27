@@ -1,0 +1,7 @@
+{
+    "AlamMax": 3,
+    "AlamMin": 0.5,
+    "Baudrate": 9600,
+    "Cope": 0,
+    "Serialport": "COM2"
+}

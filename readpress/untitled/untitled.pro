@@ -16,17 +16,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    datadialog.cpp \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
     readthread.cpp
 
 HEADERS += \
+    datadialog.h \
     jsonfile.h \
     mainwindow.h \
     readthread.h
 
 FORMS += \
+    datadialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

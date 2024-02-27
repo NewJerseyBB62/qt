@@ -360,15 +360,15 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_7">
+         <widget class="QLabel" name="CurrValLab">
           <property name="font">
            <font>
             <family>微软雅黑</family>
-            <pointsize>36</pointsize>
+            <pointsize>48</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>0.00</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -382,7 +382,7 @@
         <property name="font">
          <font>
           <family>微软雅黑</family>
-          <pointsize>16</pointsize>
+          <pointsize>12</pointsize>
          </font>
         </property>
        </widget>

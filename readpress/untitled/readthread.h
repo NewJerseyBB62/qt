@@ -16,6 +16,7 @@ public:
     int uninitReadthread();
     int SlotStart();
     void SlotStop();
+    void SetSerialport(const QString& serialport, const int& baud);
 
 protected:
     void run();
