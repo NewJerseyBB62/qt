@@ -3,6 +3,7 @@
 #include <QSerialPortInfo>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QMetaType>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,8 +12,12 @@ MainWindow::MainWindow(QWidget *parent)
     , m_ReadthreadObj(nullptr)
     , m_JsonObj(nullptr)
     , m_DataObj(nullptr)
+    , m_DatabaseObj(nullptr)
 {
     ui->setupUi(this);
+    ui->textBrowser->document()->setMaximumBlockCount(100);
+    qRegisterMetaType<SqlData>("SqlData");
+    qRegisterMetaType<SqlData>("SqlData&");
 }
 
 MainWindow::~MainWindow()
@@ -42,6 +47,7 @@ void MainWindow::init()
     ui->alamMaxLE->setText(QString::number(m_SetData.alamMax, 'f', 2));
     ui->alamMinLE->setText(QString::number(m_SetData.alamMin, 'f', 2));
     ui->copeLE->setText(QString::number(m_SetData.copeVal, 'f', 2));
+    ui->savetimeCB->setCurrentIndex(GetSavetimeIdx(m_SetData.saveTime));
     m_ReadthreadObj = new Readthread(m_SetData.serialport, m_SetData.baudrate);
     connect(m_ReadthreadObj, &Readthread::SigRecvData, this, &MainWindow::SlotRecvData, Qt::QueuedConnection);
     if(m_ReadthreadObj->initReadthread() != 0)
@@ -50,6 +56,10 @@ void MainWindow::init()
         ui->pushButton_2->setEnabled(true);
         return;
     }
+    m_DatabaseObj = new Database(m_SetData.saveTime);
+    connect(this, &MainWindow::SigSendData, m_DatabaseObj, &Database::GetTestData, Qt::QueuedConnection);
+    connect(this, &MainWindow::SigSaveTime, m_DatabaseObj, &Database::GetSaveTime, Qt::QueuedConnection);
+    m_DatabaseObj->startDBThread();
     m_ReadthreadObj->SlotStart();
     ui->pushButton_2->setEnabled(false);
 }
@@ -62,6 +72,11 @@ void MainWindow::closeEvent(QCloseEvent *)
     {
         m_ReadthreadObj->uninitReadthread();
         delete m_ReadthreadObj;
+    }
+    if(m_DatabaseObj != nullptr)
+    {
+        delete m_DatabaseObj;
+        m_DatabaseObj = nullptr;
     }
 }
 
@@ -105,6 +120,7 @@ void MainWindow::SlotRecvData(const float& p_val)
 {
     QPalette pe;
     QString strMsg;
+    SqlData sendData;
     QDateTime dateTime= QDateTime::currentDateTime();
     strMsg = dateTime.toString("yyyy-MM-dd hh:mm:ss");
     strMsg.append(" 压力值: ");
@@ -133,6 +149,12 @@ void MainWindow::SlotRecvData(const float& p_val)
     ui->CurrValLab->setText(QString::number(val, 'f', 2));
     strMsg.append(" 正常 ");
     ui->textBrowser->append("<font color=\"#000000\">" + strMsg + "</font> ");
+    sendData.pressVal = val;
+    sendData.pressMax = m_SetData.alamMax;
+    sendData.pressMin = m_SetData.alamMin;
+    sendData.testDate = dateTime.toString("yyyy-MM-dd hh:mm:ss");
+    sendData.pressComp = m_SetData.copeVal;
+    emit SigSendData(sendData);
 }
 
 void MainWindow::SlotCloseDataObj()
@@ -189,4 +211,73 @@ void MainWindow::on_copeLE_textChanged(const QString &arg1)
 void MainWindow::on_serialCB_currentIndexChanged(const QString &arg1)
 {
     m_SetData.serialport = arg1;
+}
+
+int MainWindow::GetSavetime(int index)
+{
+    int savetime = 60;
+    switch(index)
+    {
+        case 0:
+            savetime = 1;
+        break;
+        case 1:
+            savetime = 10;
+        break;
+        case 2:
+            savetime = 30;
+        break;
+        case 3:
+            savetime = 60;
+        break;
+        case 4:
+            savetime = 600;
+        break;
+        case 5:
+            savetime = 1800;
+        break;
+        case 6:
+            savetime = 3600;
+        break;
+        default:
+            break;
+    }
+    return savetime;
+}
+
+int MainWindow::GetSavetimeIdx(int time)
+{
+    int idx = 3;
+    switch(time)
+    {
+        case 1:
+            idx = 0;
+        break;
+        case 10:
+            idx = 1;
+        break;
+        case 30:
+            idx = 2;
+        break;
+        case 60:
+            idx = 3;
+        break;
+        case 600:
+            idx = 4;
+        break;
+        case 1800:
+            idx = 5;
+        break;
+        case 3600:
+            idx = 6;
+        break;
+        default:
+            break;
+    }
+    return idx;
+}
+
+void MainWindow::on_savetimeCB_activated(int index)
+{
+    m_SetData.saveTime = GetSavetime(index);
 }

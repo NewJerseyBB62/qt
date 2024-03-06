@@ -5,6 +5,7 @@
 #include "readthread.h"
 #include "jsonfile.h"
 #include "datadialog.h"
+#include "database.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,10 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *);
+
+signals:
+    void SigSendData(const SqlData &p_data);
+    void SigSaveTime(const int &p_time);
 
 public slots:
     void SlotRecvData(const float& p_val);
@@ -41,10 +46,14 @@ private slots:
 
     void on_serialCB_currentIndexChanged(const QString &arg1);
 
+    void on_savetimeCB_activated(int index);
+
 private:
     void initSerialPort();
     void ReadSetting(SetData &p_data);
     void WriteSetting(const SetData &p_data);
+    int GetSavetime(int index);
+    int GetSavetimeIdx(int time);
 
 private:
     Ui::MainWindow *ui;
@@ -52,6 +61,7 @@ private:
     SetStruct m_SetData;
     jsonfile *m_JsonObj;
     DataDialog *m_DataObj;
+    Database *m_DatabaseObj;
 
 };
 #endif // MAINWINDOW_H

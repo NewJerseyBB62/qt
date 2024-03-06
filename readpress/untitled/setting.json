@@ -3,5 +3,6 @@
     "AlamMin": 0.5,
     "Baudrate": 9600,
     "Cope": 0,
+    "SaveTime": 10,
     "Serialport": "COM2"
 }

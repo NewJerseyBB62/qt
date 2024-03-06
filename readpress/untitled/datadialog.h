@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QSqlDatabase>
 
 namespace Ui {
 class DataDialog;
@@ -39,7 +40,11 @@ private slots:
     void on_closeBtn_clicked(QAbstractButton *button);
 
 private:
+    int CreateTable();
+
+private:
     Ui::DataDialog *ui;
+    QSqlDatabase m_SqlObj;
 };
 
 #endif // DATADIALOG_H

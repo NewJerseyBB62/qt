@@ -27,6 +27,7 @@ int jsonfile::readJsonfile(const QString &p_path, SetStruct &p_data)
         p_data.alamMax = root["AlamMax"].toDouble();
         p_data.alamMin = root["AlamMin"].toDouble();
         p_data.copeVal = root["Cope"].toDouble();
+        p_data.saveTime = root["SaveTime"].toInt();
     }
     else
     {
@@ -35,6 +36,7 @@ int jsonfile::readJsonfile(const QString &p_path, SetStruct &p_data)
         p_data.alamMax = 3.0;
         p_data.alamMin = 0.0;
         p_data.copeVal = 0.0;
+        p_data.saveTime = 60;
     }
     return 0;
 }
@@ -52,6 +54,7 @@ int jsonfile::writeJsonfile(const QString &p_path, const SetStruct &p_data)
     root.insert("AlamMax", p_data.alamMax);
     root.insert("AlamMin", p_data.alamMin);
     root.insert("Cope", p_data.copeVal);
+    root.insert("SaveTime", p_data.saveTime);
     QJsonDocument doc(root);
     file.write(doc.toJson());
     file.close();

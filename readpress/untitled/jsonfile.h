@@ -10,6 +10,7 @@ typedef struct SetData{
     float alamMax;
     float alamMin;
     float copeVal;
+    int saveTime;
 }SetStruct;
 
 class jsonfile : public QObject
