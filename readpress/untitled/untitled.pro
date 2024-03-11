@@ -25,18 +25,23 @@ SOURCES += \
     jsonfile.cpp \
     main.cpp \
     mainwindow.cpp \
-    readthread.cpp
+    readthread.cpp \
+    task.cpp \
+    taskdialog.cpp
 
 HEADERS += \
     database.h \
     datadialog.h \
     jsonfile.h \
     mainwindow.h \
-    readthread.h
+    readthread.h \
+    task.h \
+    taskdialog.h
 
 FORMS += \
     datadialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    taskdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
