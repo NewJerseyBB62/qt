@@ -23,7 +23,7 @@ protected:
 
 
 signals:
-    void SigRecvData(const float& p_val);
+    void SigRecvData(const float& p_val, const QByteArray &p_data);
 
 private:
     QSerialPort* m_SerialObj;

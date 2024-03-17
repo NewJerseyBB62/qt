@@ -20,6 +20,11 @@
    <string>瑞迪</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">#centralwidget{
+border-image: url(:/img/bg1.png);
+}</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="2,5,1">
     <property name="spacing">
      <number>10</number>

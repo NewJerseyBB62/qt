@@ -1,5 +1,4 @@
 #include "task.h"
-#include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QFile>
@@ -7,29 +6,48 @@
 #include <QDateTime>
 #include <QThread>
 
-Task::Task(const QString &p_str, QObject *parent)
+Task::Task(QObject *parent)
+{
+
+    m_Run = true;
+
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+        m_SqlObj = QSqlDatabase::database("qt_sql_default_connection");
+    else
+        m_SqlObj = QSqlDatabase::addDatabase("QSQLITE");
+    m_SqlObj.setDatabaseName("./db/MyDataBase.db");
+    if(!m_SqlObj.open())
+    {
+        emit SigTaskOver();
+        return;
+    }
+    m_SqlObj.close();
+}
+
+void Task::setSql(const QString &p_str)
 {
     m_Sqlstr = p_str;
-    m_Run = true;
 }
 
 void Task::stopTask()
 {
     m_Run = false;
+    m_SqlObj.close();
     QThread::msleep(20);
 }
 
 void Task::run()
 {
-    int i;
+    int i = 1;
+    m_SqlObj.open();
     QString csvName = "./data/" + QDateTime::currentDateTime().toString("yyyyMMddhhmmss") + ".csv";
     QFile csvfile(csvName);
     csvfile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&csvfile);
-    QSqlQuery sqlQuery;
+    QSqlQuery sqlQuery(m_SqlObj);
     sqlQuery.prepare(m_Sqlstr);
     sqlQuery.exec(m_Sqlstr);
-    out<<tr("序号,")<<tr("日期,")<<tr("气压上限,")<<tr("气压下限,")<<tr("气压值,")<<tr("补偿值,")<<tr("状态\n");
+    out<<tr("序号,")<<tr("日期,")<<tr("压力上限,")<<tr("压力下限,")<<tr("压力值,")<<tr("补偿值,")<<tr("状态\n");
     csvfile.flush();
     while(m_Run && sqlQuery.next())
     {
@@ -43,5 +61,6 @@ void Task::run()
     }
     if(!sqlQuery.next())
         emit SigTaskOver();
+    m_SqlObj.close();
     csvfile.close();
 }

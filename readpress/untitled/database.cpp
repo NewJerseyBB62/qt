@@ -17,7 +17,10 @@ Database::Database(int p_timedis):
     if(!dir.exists("db"))
         dir.mkdir("db");
     dir.cd("./db");
-    m_SqlObj = QSqlDatabase::addDatabase("QSQLITE");
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+        m_SqlObj = QSqlDatabase::database("qt_sql_default_connection");
+    else
+        m_SqlObj = QSqlDatabase::addDatabase("QSQLITE");
     m_SqlObj.setDatabaseName("./db/MyDataBase.db");
     if(m_SqlObj.open())
     {
@@ -97,25 +100,35 @@ void Database::run()
 {
     QString sqlString;
     QString pressState;
+    qint64 currentTime;
+    QDateTime datetime;
     while(m_ThreadRun)
     {
-        qint64 currTime = QDateTime::currentDateTime().toTime_t();
-        if(currTime - m_LastSaveTime >= m_SaveDistance && m_Data.testDate.length() > 0)
+        if(!m_SqlObj.isOpen())
+            m_SqlObj.open();
+        if(m_Data.testDate.length() <= 0)
         {
+            msleep(500);
+            continue;
+        }
+        currentTime = datetime.fromString(m_Data.testDate, "yyyy-MM-dd hh:mm:ss").toTime_t();
+        if(m_LastSaveTime == 0 || currentTime - m_LastSaveTime >= m_SaveDistance)
+        {
+
             m_Mutex.lock();
             if(m_Data.pressVal <= m_Data.pressMin)
-                pressState = "气压过低";
-            else if(m_Data.pressVal >= m_Data.pressMin)
-                pressState = "气压过高";
+                pressState = "压力过低";
+            else if(m_Data.pressVal >= m_Data.pressMax)
+                pressState = "压力过高";
             else
-                pressState = "气压正常";
+                pressState = "压力正常";
             //
             sqlString = QString("INSERT INTO PressData (DATE, MAX, MIN, PRESS, COMP, STATE)"
                         "VALUES ('%1', %2, %3, %4, %5, \'%6\');")
                         .arg(m_Data.testDate).arg(m_Data.pressMax).arg(m_Data.pressMin)
                         .arg(m_Data.pressVal).arg(m_Data.pressComp).arg(pressState);
             m_Mutex.unlock();
-            m_LastSaveTime = currTime;
+            m_LastSaveTime = currentTime;
             if(m_SqlQuery == nullptr)
             {
                 msleep(1000);
@@ -125,7 +138,8 @@ void Database::run()
             bool ret = m_SqlQuery->exec(sqlString);
             qDebug() << ret << " sql " << sqlString;
         }
-        msleep(1000);
+        msleep(500);
+        m_SqlObj.close();
     }
 }
 

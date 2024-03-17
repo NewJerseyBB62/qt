@@ -27,7 +27,7 @@ signals:
 
 private slots:
     void SlotTimeOver();
-
+    void SlotTaskOver();
     void on_queryBtn_clicked();
 
     void on_resetBtn_clicked();

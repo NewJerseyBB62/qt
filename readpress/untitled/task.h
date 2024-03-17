@@ -3,12 +3,14 @@
 
 #include <QObject>
 #include <QRunnable>
+#include <QSqlDatabase>
 
 class Task : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    explicit Task(const QString &p_str, QObject *parent = nullptr);
+    explicit Task(QObject *parent = nullptr);
+    void setSql(const QString &p_str);
     void startTask(const QString &p_str);
     void stopTask();
 signals:
@@ -20,6 +22,7 @@ protected:
 private:
     bool m_Run;
      QString m_Sqlstr;
+     QSqlDatabase m_SqlObj;
 };
 
 #endif // TASK_H

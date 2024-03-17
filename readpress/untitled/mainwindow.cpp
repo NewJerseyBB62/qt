@@ -116,7 +116,7 @@ void MainWindow::on_pushButton_3_clicked()
     ui->pushButton_3->setEnabled(true);
 }
 
-void MainWindow::SlotRecvData(const float& p_val)
+void MainWindow::SlotRecvData(const float& p_val,  const QByteArray &p_data)
 {
     QPalette pe;
     QString strMsg;
@@ -149,6 +149,7 @@ void MainWindow::SlotRecvData(const float& p_val)
     ui->CurrValLab->setText(QString::number(val, 'f', 2));
     strMsg.append(" 正常 ");
     ui->textBrowser->append("<font color=\"#000000\">" + strMsg + "</font> ");
+    //ui->textBrowser->append(p_data.toHex());
     sendData.pressVal = val;
     sendData.pressMax = m_SetData.alamMax;
     sendData.pressMin = m_SetData.alamMin;

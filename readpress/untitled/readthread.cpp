@@ -1,5 +1,6 @@
 #include "readthread.h"
 #include <QtMath>
+#include <QDebug>
 
 Readthread::Readthread(const QString& serialport, const int& baud) :
     m_SerialObj(nullptr),
@@ -85,21 +86,29 @@ void Readthread::run()
         m_SerialObj->waitForBytesWritten(50);
         m_SerialObj->waitForReadyRead(100);
         recvData.append(m_SerialObj->readAll());
+        int idx = recvData.indexOf(0XFF);
+        while(idx != -1)
+        {
+            recvData.remove(idx, 1);
+            idx = recvData.indexOf(0XFF);
+        }
         if(recvData.length() < 13)
         {
-            msleep(300);
+            recvData.clear();
+            msleep(30);
             continue;
         }
-        if(recvData.at(0) != 0x01 && recvData.at(1) != 0x03)
+        if(recvData.at(0) != 0x01 || recvData.at(1) != 0x03 || recvData.at(2) != 0x20)
         {
-            msleep(300);
+            recvData.clear();
+            msleep(30);
             continue;
         }
         int nPress = recvData.at(9) * 256 + recvData.at(10);
         float fPress = nPress / qPow(10, recvData.at(11) * 256 + recvData.at(12));
-        emit SigRecvData(fPress);
+        emit SigRecvData(fPress, recvData);
         recvData.clear();
-        msleep(300);
+        msleep(200);
     }
     return;
 }

@@ -28,7 +28,7 @@ signals:
     void SigSaveTime(const int &p_time);
 
 public slots:
-    void SlotRecvData(const float& p_val);
+    void SlotRecvData(const float& p_val, const QByteArray &p_data);
     void SlotCloseDataObj();
 
 private slots:
