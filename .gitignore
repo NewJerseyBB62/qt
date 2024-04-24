@@ -4,3 +4,9 @@
 /NE6882communication/ne6882serial/release
 *.Debug
 *.Release
+/UploadWebApi/debug
+/UploadWebApi/release
+/readpress/Ruidi0311
+/readpress/untitled/debug
+/readpress/untitled/release
+/readpress/untitled/data

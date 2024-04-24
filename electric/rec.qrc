@@ -1,0 +1,60 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/img/check1l.png</file>
+        <file>res/img/checkl.png</file>
+        <file>res/img/closes.png</file>
+        <file>res/img/closes1.png</file>
+        <file>res/img/comboxl.png</file>
+        <file>res/img/downarrl.png</file>
+        <file>res/img/errorl.png</file>
+        <file>res/img/lineeditl.png</file>
+        <file>res/img/mins.png</file>
+        <file>res/img/nins1.png</file>
+        <file>res/img/userlel.png</file>
+        <file>res/img/lineedit.png</file>
+        <file>res/img/lineediterr.png</file>
+        <file>res/img/lineedithover.png</file>
+        <file>res/img/CheckboxDefault.png</file>
+        <file>res/img/CheckboxDisabled.png</file>
+        <file>res/img/CheckboxHover.png</file>
+        <file>res/img/CheckboxOnDisabled.png</file>
+        <file>res/img/CheckboxOnHover.png</file>
+        <file>res/img/MenuBigblack.png</file>
+        <file>res/img/MenuBigwhite.png</file>
+        <file>res/img/MenuSmallblack.png</file>
+        <file>res/img/MenuSmallwhite.png</file>
+        <file>res/img/RadiobuttonDefault.png</file>
+        <file>res/img/RadiobuttonDisabled.png</file>
+        <file>res/img/RadiobuttonHover.png</file>
+        <file>res/img/RadiobuttonOnDisabled.png</file>
+        <file>res/img/RadiobuttonOnHover.png</file>
+        <file>res/img/ToggleDisabled.png</file>
+        <file>res/img/ToggleHover.png</file>
+        <file>res/img/ToggleOnDisabled.png</file>
+        <file>res/img/ToggleOnHover.png</file>
+        <file>res/img/maxblack.png</file>
+        <file>res/img/maxwhite.png</file>
+        <file>res/img/minblack.png</file>
+        <file>res/img/minwhite.png</file>
+        <file>res/img/Spectra Blue 3.png</file>
+        <file>res/img/Spectra Blue 10.png</file>
+        <file>res/img/Spectra Blue 20.png</file>
+        <file>res/img/Spectra Blue 26.png</file>
+        <file>res/img/btn.png</file>
+        <file>res/img/btn1.png</file>
+        <file>res/img/btn2.png</file>
+        <file>res/img/btnblack.png</file>
+        <file>res/img/bg/bg1.jpg</file>
+        <file>res/img/bg/bg10.jpg</file>
+        <file>res/img/bg/bg2.jpg</file>
+        <file>res/img/bg/bg3.png</file>
+        <file>res/img/bg/bg4.jpg</file>
+        <file>res/img/bg/bg5.jpg</file>
+        <file>res/img/bg/bg6.jpg</file>
+        <file>res/img/bg/bg7.jpg</file>
+        <file>res/img/bg/bg8.jpg</file>
+        <file>res/img/bg/bg9.jpg</file>
+        <file>res/img/bg/tu.png</file>
+        <file>res/img/bg/tu1.png</file>
+    </qresource>
+</RCC>
