@@ -56,5 +56,10 @@
         <file>res/img/bg/bg9.jpg</file>
         <file>res/img/bg/tu.png</file>
         <file>res/img/bg/tu1.png</file>
+        <file>res/img/bg/bg11.jpg</file>
+        <file>res/img/bg/bg12.jpg</file>
+        <file>res/img/bg/bg13.jpg</file>
+        <file>res/img/bg/bg15.jpg</file>
+        <file>res/img/bg/bg16.jpg</file>
     </qresource>
 </RCC>

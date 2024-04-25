@@ -44,5 +44,7 @@ FORMS += \
     database/datadialog.ui \
     errordialog.ui
 
+CONFIG+=resources_big
+
 RESOURCES += \
     rec.qrc

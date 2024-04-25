@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'datadialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.14.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,7 @@
 #define UI_DATADIALOG_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
@@ -65,7 +63,7 @@ public:
     void setupUi(QDialog *DataDialog)
     {
         if (DataDialog->objectName().isEmpty())
-            DataDialog->setObjectName(QStringLiteral("DataDialog"));
+            DataDialog->setObjectName(QString::fromUtf8("DataDialog"));
         DataDialog->resize(800, 600);
         DataDialog->setStyleSheet(QString::fromUtf8("QDialog{\n"
 "border-image: url(:/res/img/bg/bg6.jpg);\n"
@@ -109,11 +107,11 @@ public:
 ""));
         verticalLayout = new QVBoxLayout(DataDialog);
         verticalLayout->setSpacing(0);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         widget = new QWidget(DataDialog);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setStyleSheet(QLatin1String("#minBtn{\n"
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setStyleSheet(QString::fromUtf8("#minBtn{\n"
 "	border-image: url(:/res/img/mins.png);\n"
 "	background-color: rgba(255, 255, 255, 0);\n"
 "}\n"
@@ -130,21 +128,21 @@ public:
 "}"));
         horizontalLayout = new QHBoxLayout(widget);
         horizontalLayout->setSpacing(20);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 20, 0);
         horizontalSpacer = new QSpacerItem(657, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
         minBtn = new QPushButton(widget);
-        minBtn->setObjectName(QStringLiteral("minBtn"));
+        minBtn->setObjectName(QString::fromUtf8("minBtn"));
         minBtn->setMinimumSize(QSize(40, 40));
         minBtn->setMaximumSize(QSize(16777215, 16777215));
 
         horizontalLayout->addWidget(minBtn);
 
         closeBtn = new QPushButton(widget);
-        closeBtn->setObjectName(QStringLiteral("closeBtn"));
+        closeBtn->setObjectName(QString::fromUtf8("closeBtn"));
         closeBtn->setMinimumSize(QSize(40, 40));
         closeBtn->setMaximumSize(QSize(16777215, 16777215));
 
@@ -154,19 +152,19 @@ public:
         verticalLayout->addWidget(widget);
 
         widget_2 = new QWidget(DataDialog);
-        widget_2->setObjectName(QStringLiteral("widget_2"));
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
         verticalLayout_2 = new QVBoxLayout(widget_2);
         verticalLayout_2->setSpacing(0);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 20);
         widget_3 = new QWidget(widget_2);
-        widget_3->setObjectName(QStringLiteral("widget_3"));
+        widget_3->setObjectName(QString::fromUtf8("widget_3"));
         horizontalLayout_2 = new QHBoxLayout(widget_3);
         horizontalLayout_2->setSpacing(5);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(10, 0, 10, 0);
         label = new QLabel(widget_3);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
         QFont font;
         font.setFamily(QString::fromUtf8("\351\273\221\344\275\223"));
         label->setFont(font);
@@ -175,7 +173,7 @@ public:
         horizontalLayout_2->addWidget(label);
 
         dateEdit = new QDateEdit(widget_3);
-        dateEdit->setObjectName(QStringLiteral("dateEdit"));
+        dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
         dateEdit->setMinimumSize(QSize(0, 30));
         dateEdit->setFont(font);
         dateEdit->setCalendarPopup(true);
@@ -183,14 +181,14 @@ public:
         horizontalLayout_2->addWidget(dateEdit);
 
         label_2 = new QLabel(widget_3);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setFont(font);
         label_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
         horizontalLayout_2->addWidget(label_2);
 
         dateEdit_2 = new QDateEdit(widget_3);
-        dateEdit_2->setObjectName(QStringLiteral("dateEdit_2"));
+        dateEdit_2->setObjectName(QString::fromUtf8("dateEdit_2"));
         dateEdit_2->setMinimumSize(QSize(0, 30));
         dateEdit_2->setFont(font);
         dateEdit_2->setCalendarPopup(true);
@@ -198,21 +196,21 @@ public:
         horizontalLayout_2->addWidget(dateEdit_2);
 
         pushButton_3 = new QPushButton(widget_3);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
         pushButton_3->setMinimumSize(QSize(0, 30));
         pushButton_3->setFont(font);
 
         horizontalLayout_2->addWidget(pushButton_3);
 
         pushButton_4 = new QPushButton(widget_3);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setMinimumSize(QSize(0, 30));
         pushButton_4->setFont(font);
 
         horizontalLayout_2->addWidget(pushButton_4);
 
         pushButton_5 = new QPushButton(widget_3);
-        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
         pushButton_5->setMinimumSize(QSize(0, 30));
         pushButton_5->setFont(font);
 
@@ -229,13 +227,13 @@ public:
         verticalLayout_2->addWidget(widget_3);
 
         widget_4 = new QWidget(widget_2);
-        widget_4->setObjectName(QStringLiteral("widget_4"));
+        widget_4->setObjectName(QString::fromUtf8("widget_4"));
         verticalLayout_3 = new QVBoxLayout(widget_4);
         verticalLayout_3->setSpacing(5);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout_3->setContentsMargins(10, 0, 10, 0);
         tableView = new QTableView(widget_4);
-        tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setObjectName(QString::fromUtf8("tableView"));
         QFont font1;
         font1.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font1.setPointSize(12);
@@ -247,69 +245,69 @@ public:
         verticalLayout_2->addWidget(widget_4);
 
         widget_5 = new QWidget(widget_2);
-        widget_5->setObjectName(QStringLiteral("widget_5"));
+        widget_5->setObjectName(QString::fromUtf8("widget_5"));
         QFont font2;
         font2.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font2.setPointSize(14);
         widget_5->setFont(font2);
         horizontalLayout_3 = new QHBoxLayout(widget_5);
         horizontalLayout_3->setSpacing(5);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(10, 0, 10, 0);
         label_3 = new QLabel(widget_5);
-        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setFont(font);
 
         horizontalLayout_3->addWidget(label_3);
 
         label_4 = new QLabel(widget_5);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setFont(font);
 
         horizontalLayout_3->addWidget(label_4);
 
         label_5 = new QLabel(widget_5);
-        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setObjectName(QString::fromUtf8("label_5"));
 
         horizontalLayout_3->addWidget(label_5);
 
         pushButton_6 = new QPushButton(widget_5);
-        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
+        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
         pushButton_6->setMinimumSize(QSize(0, 30));
         pushButton_6->setFont(font);
 
         horizontalLayout_3->addWidget(pushButton_6);
 
         pushButton_7 = new QPushButton(widget_5);
-        pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
+        pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
         pushButton_7->setMinimumSize(QSize(0, 30));
         pushButton_7->setFont(font);
 
         horizontalLayout_3->addWidget(pushButton_7);
 
         lineEdit = new QLineEdit(widget_5);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setMinimumSize(QSize(0, 30));
         lineEdit->setFont(font);
 
         horizontalLayout_3->addWidget(lineEdit);
 
         pushButton_8 = new QPushButton(widget_5);
-        pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
+        pushButton_8->setObjectName(QString::fromUtf8("pushButton_8"));
         pushButton_8->setMinimumSize(QSize(0, 30));
         pushButton_8->setFont(font);
 
         horizontalLayout_3->addWidget(pushButton_8);
 
         pushButton_9 = new QPushButton(widget_5);
-        pushButton_9->setObjectName(QStringLiteral("pushButton_9"));
+        pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
         pushButton_9->setMinimumSize(QSize(0, 30));
         pushButton_9->setFont(font);
 
         horizontalLayout_3->addWidget(pushButton_9);
 
         pushButton_10 = new QPushButton(widget_5);
-        pushButton_10->setObjectName(QStringLiteral("pushButton_10"));
+        pushButton_10->setObjectName(QString::fromUtf8("pushButton_10"));
         pushButton_10->setMinimumSize(QSize(0, 30));
         pushButton_10->setFont(font);
 
@@ -343,22 +341,22 @@ public:
 
     void retranslateUi(QDialog *DataDialog)
     {
-        DataDialog->setWindowTitle(QApplication::translate("DataDialog", "Dialog", Q_NULLPTR));
+        DataDialog->setWindowTitle(QCoreApplication::translate("DataDialog", "Dialog", nullptr));
         minBtn->setText(QString());
         closeBtn->setText(QString());
-        label->setText(QApplication::translate("DataDialog", "\350\265\267\345\247\213\346\227\266\351\227\264", Q_NULLPTR));
-        label_2->setText(QApplication::translate("DataDialog", "\347\273\223\346\235\237\346\227\266\351\227\264", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("DataDialog", "\346\237\245\350\257\242", Q_NULLPTR));
-        pushButton_4->setText(QApplication::translate("DataDialog", "\345\257\274\345\207\272", Q_NULLPTR));
-        pushButton_5->setText(QApplication::translate("DataDialog", "\351\207\215\347\275\256", Q_NULLPTR));
-        label_3->setText(QApplication::translate("DataDialog", "\345\275\223\345\211\215\351\241\265: ", Q_NULLPTR));
-        label_4->setText(QApplication::translate("DataDialog", "\346\200\273\351\241\265\346\225\260: ", Q_NULLPTR));
+        label->setText(QCoreApplication::translate("DataDialog", "\350\265\267\345\247\213\346\227\266\351\227\264", nullptr));
+        label_2->setText(QCoreApplication::translate("DataDialog", "\347\273\223\346\235\237\346\227\266\351\227\264", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("DataDialog", "\346\237\245\350\257\242", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("DataDialog", "\345\257\274\345\207\272", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("DataDialog", "\351\207\215\347\275\256", nullptr));
+        label_3->setText(QCoreApplication::translate("DataDialog", "\345\275\223\345\211\215\351\241\265: ", nullptr));
+        label_4->setText(QCoreApplication::translate("DataDialog", "\346\200\273\351\241\265\346\225\260: ", nullptr));
         label_5->setText(QString());
-        pushButton_6->setText(QApplication::translate("DataDialog", "\351\246\226\351\241\265", Q_NULLPTR));
-        pushButton_7->setText(QApplication::translate("DataDialog", "\344\270\212\344\270\200\351\241\265", Q_NULLPTR));
-        pushButton_8->setText(QApplication::translate("DataDialog", "\350\267\263\350\275\254", Q_NULLPTR));
-        pushButton_9->setText(QApplication::translate("DataDialog", "\344\270\213\344\270\200\351\241\265", Q_NULLPTR));
-        pushButton_10->setText(QApplication::translate("DataDialog", "\346\234\253\351\241\265", Q_NULLPTR));
+        pushButton_6->setText(QCoreApplication::translate("DataDialog", "\351\246\226\351\241\265", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("DataDialog", "\344\270\212\344\270\200\351\241\265", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("DataDialog", "\350\267\263\350\275\254", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("DataDialog", "\344\270\213\344\270\200\351\241\265", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("DataDialog", "\346\234\253\351\241\265", nullptr));
     } // retranslateUi
 
 };

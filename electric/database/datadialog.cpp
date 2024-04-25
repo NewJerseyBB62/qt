@@ -7,6 +7,7 @@ DataDialog::DataDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowState(Qt::WindowMaximized);
 }
 
 DataDialog::~DataDialog()

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'errordialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.9.1
+** Created by: Qt User Interface Compiler version 5.14.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,12 +10,9 @@
 #define UI_ERRORDIALOG_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -46,24 +43,24 @@ public:
     void setupUi(QDialog *ErrorDialog)
     {
         if (ErrorDialog->objectName().isEmpty())
-            ErrorDialog->setObjectName(QStringLiteral("ErrorDialog"));
+            ErrorDialog->setObjectName(QString::fromUtf8("ErrorDialog"));
         ErrorDialog->resize(400, 300);
         verticalLayout = new QVBoxLayout(ErrorDialog);
         verticalLayout->setSpacing(0);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(10, 0, 10, 0);
         widget = new QWidget(ErrorDialog);
-        widget->setObjectName(QStringLiteral("widget"));
+        widget->setObjectName(QString::fromUtf8("widget"));
         horizontalLayout = new QHBoxLayout(widget);
         horizontalLayout->setSpacing(20);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalSpacer = new QSpacerItem(257, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
 
         minBtn = new QPushButton(widget);
-        minBtn->setObjectName(QStringLiteral("minBtn"));
+        minBtn->setObjectName(QString::fromUtf8("minBtn"));
         minBtn->setMinimumSize(QSize(40, 40));
         minBtn->setMaximumSize(QSize(40, 40));
         minBtn->setFlat(true);
@@ -71,7 +68,7 @@ public:
         horizontalLayout->addWidget(minBtn);
 
         closeBtn = new QPushButton(widget);
-        closeBtn->setObjectName(QStringLiteral("closeBtn"));
+        closeBtn->setObjectName(QString::fromUtf8("closeBtn"));
         closeBtn->setMinimumSize(QSize(40, 40));
         closeBtn->setMaximumSize(QSize(40, 40));
         closeBtn->setFlat(true);
@@ -83,20 +80,20 @@ public:
         verticalLayout->addWidget(widget);
 
         widget_2 = new QWidget(ErrorDialog);
-        widget_2->setObjectName(QStringLiteral("widget_2"));
+        widget_2->setObjectName(QString::fromUtf8("widget_2"));
         verticalLayout_2 = new QVBoxLayout(widget_2);
         verticalLayout_2->setSpacing(5);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         label = new QLabel(widget_2);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
         label->setAlignment(Qt::AlignCenter);
         label->setWordWrap(true);
 
         verticalLayout_2->addWidget(label);
 
         label_2 = new QLabel(widget_2);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setAlignment(Qt::AlignCenter);
         label_2->setWordWrap(true);
 
@@ -106,17 +103,17 @@ public:
         verticalLayout->addWidget(widget_2);
 
         widget_3 = new QWidget(ErrorDialog);
-        widget_3->setObjectName(QStringLiteral("widget_3"));
+        widget_3->setObjectName(QString::fromUtf8("widget_3"));
         horizontalLayout_2 = new QHBoxLayout(widget_3);
         horizontalLayout_2->setSpacing(20);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(10, 0, 10, 0);
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer_2);
 
         pushButton = new QPushButton(widget_3);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
 
         horizontalLayout_2->addWidget(pushButton);
 
@@ -141,12 +138,12 @@ public:
 
     void retranslateUi(QDialog *ErrorDialog)
     {
-        ErrorDialog->setWindowTitle(QApplication::translate("ErrorDialog", "Dialog", Q_NULLPTR));
+        ErrorDialog->setWindowTitle(QCoreApplication::translate("ErrorDialog", "Dialog", nullptr));
         minBtn->setText(QString());
         closeBtn->setText(QString());
-        label->setText(QApplication::translate("ErrorDialog", "\351\224\231\350\257\257\346\240\207\351\242\230", Q_NULLPTR));
-        label_2->setText(QApplication::translate("ErrorDialog", "\351\224\231\350\257\257\345\206\205\345\256\271", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("ErrorDialog", "\345\205\263\351\227\255", Q_NULLPTR));
+        label->setText(QCoreApplication::translate("ErrorDialog", "\351\224\231\350\257\257\346\240\207\351\242\230", nullptr));
+        label_2->setText(QCoreApplication::translate("ErrorDialog", "\351\224\231\350\257\257\345\206\205\345\256\271", nullptr));
+        pushButton->setText(QCoreApplication::translate("ErrorDialog", "\345\205\263\351\227\255", nullptr));
     } // retranslateUi
 
 };
