@@ -1,0 +1,123 @@
+<RCC>
+    <qresource prefix="/">
+        <file>png/main/bg_main.png</file>
+        <file>png/main/btn.png</file>
+        <file>png/main/btn_selected.png</file>
+        <file>png/main/icon_cross.png</file>
+        <file>png/main/icon_cross_selected.png</file>
+        <file>png/main/icon_general.png</file>
+        <file>png/main/icon_gradient.png</file>
+        <file>png/main/icon_home.png</file>
+        <file>png/main/icon_set.png</file>
+        <file>png/main/icon_step.png</file>
+        <file>png/main/icon_stepladder.png</file>
+        <file>png/main/icon_step_selected.png</file>
+        <file>png/main/icon_general_selected.png</file>
+        <file>png/main/icon_gradient_selected.png</file>
+        <file>png/main/icon_set_selected.png</file>
+        <file>png/main/icon_stepladder_selected.png</file>
+        <file>png/main/btn_start_selected.png</file>
+        <file>png/main/btn_stop_selected.png</file>
+        <file>png/main/btntest.png</file>
+        <file>png/main/btntest1.png</file>
+        <file>png/main/btntest1_selected.png</file>
+        <file>png/main/icon_arrow.png</file>
+        <file>png/main/icon_back.png</file>
+        <file>png/main/icon_back_selected.png</file>
+        <file>png/main/icon_canshu.png</file>
+        <file>png/main/icon_canshu_selected.png</file>
+        <file>png/main/icon_error.png</file>
+        <file>png/main/icon_start.png</file>
+        <file>png/main/icon_start_selected.png</file>
+        <file>png/main/icon_stop.png</file>
+        <file>png/main/icon_stop_selected.png</file>
+        <file>png/main/lineedit1.png</file>
+        <file>png/main/lineedit2.png</file>
+        <file>png/main/U.png</file>
+        <file>png/main/V.png</file>
+        <file>png/main/W.png</file>
+        <file>png/main/downarrl.png</file>
+        <file>png/main/btn2_selected.png</file>
+        <file>png/main/cross.png</file>
+        <file>png/main/logo.png</file>
+        <file>png/main/bg_test.png</file>
+        <file>png/main/0.png</file>
+        <file>png/main/1.png</file>
+        <file>png/main/01.png</file>
+        <file>png/main/2.png</file>
+        <file>png/main/3.png</file>
+        <file>png/main/4.png</file>
+        <file>png/main/5.png</file>
+        <file>png/main/6.png</file>
+        <file>png/main/7.png</file>
+        <file>png/main/8.png</file>
+        <file>png/main/9.png</file>
+        <file>png/main/11.png</file>
+        <file>png/main/21.png</file>
+        <file>png/main/31.png</file>
+        <file>png/main/41.png</file>
+        <file>png/main/51.png</file>
+        <file>png/main/61.png</file>
+        <file>png/main/71.png</file>
+        <file>png/main/81.png</file>
+        <file>png/main/91.png</file>
+        <file>png/main/lock.png</file>
+        <file>png/main/lock1.png</file>
+        <file>png/main/userlel.png</file>
+        <file>png/main/02.png</file>
+        <file>png/main/12.png</file>
+        <file>png/main/22.png</file>
+        <file>png/main/32.png</file>
+        <file>png/main/42.png</file>
+        <file>png/main/52.png</file>
+        <file>png/main/62.png</file>
+        <file>png/main/72.png</file>
+        <file>png/main/82.png</file>
+        <file>png/main/92.png</file>
+        <file>png/main/lock2.png</file>
+        <file>png/biankuang/按钮-边框 (1).svg</file>
+        <file>png/biankuang/按钮-边框 (2).svg</file>
+        <file>png/biankuang/按钮-边框 (3).svg</file>
+        <file>png/biankuang/按钮-边框 (4).svg</file>
+        <file>png/biankuang/按钮-边框 (5).svg</file>
+        <file>png/biankuang/按钮-边框 (6).svg</file>
+        <file>png/biankuang/按钮-边框.svg</file>
+        <file>png/biankuang/边框1 (1).svg</file>
+        <file>png/biankuang/边框1 (2).svg</file>
+        <file>png/biankuang/边框1 (3).svg</file>
+        <file>png/biankuang/边框1 (4).svg</file>
+        <file>png/biankuang/边框1 (5).svg</file>
+        <file>png/biankuang/边框1 (6).svg</file>
+        <file>png/biankuang/边框1 (7).svg</file>
+        <file>png/biankuang/边框1.svg</file>
+        <file>png/biankuang/边框2 (1).svg</file>
+        <file>png/biankuang/边框2 (2).svg</file>
+        <file>png/biankuang/边框2 (3).svg</file>
+        <file>png/biankuang/边框2 (4).svg</file>
+        <file>png/biankuang/边框2 (5).svg</file>
+        <file>png/biankuang/边框2 (6).svg</file>
+        <file>png/biankuang/边框2.svg</file>
+        <file>png/biankuang/边框A (1).png</file>
+        <file>png/biankuang/边框A (2).png</file>
+        <file>png/biankuang/边框A (3).png</file>
+        <file>png/biankuang/边框A (4).png</file>
+        <file>png/biankuang/边框A (5).png</file>
+        <file>png/biankuang/边框A (6).png</file>
+        <file>png/biankuang/边框A.png</file>
+        <file>png/biankuang/backspace.svg</file>
+        <file>png/biankuang/backspace (1).svg</file>
+        <file>png/biankuang/backspace (2).svg</file>
+        <file>png/biankuang/backspace (3).svg</file>
+        <file>png/biankuang/backspace (4).svg</file>
+        <file>png/biankuang/backspace (5).svg</file>
+        <file>png/biankuang/backspace (6).svg</file>
+        <file>png/biankuang/按钮7.png</file>
+        <file>png/biankuang/回车.svg</file>
+        <file>png/biankuang/回车 (1).svg</file>
+        <file>png/biankuang/回车 (2).svg</file>
+        <file>png/biankuang/回车 (3).svg</file>
+        <file>png/biankuang/回车 (4).svg</file>
+        <file>png/biankuang/回车 (5).svg</file>
+        <file>png/biankuang/回车 (6).svg</file>
+    </qresource>
+</RCC>

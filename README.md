@@ -37,3 +37,9 @@ https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/online_installers/
 安装速度极慢 需要科学网或者配置镜像地址
 打开终端 输入C:\Users\14417\Downloads> .\qt-online-installer-windows-x64-online.exe --mirror https://mirrors.ustc.edu.cn/qtproject/
 后面的镜像不是清华大学，清华大学镜像安装QT会疯狂报错辣鸡，使用此镜像一边过。
+
+
+PIPS
+电源控制软件 linux系统 QT5.15.2开发
+CAN通信 虚拟数字键盘 1280x800分辨率
+GPIO控制旋钮 报警灯 RTC等功能

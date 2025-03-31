@@ -1,0 +1,1444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StepSetDialog</class>
+ <widget class="QDialog" name="StepSetDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true"/>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#StepSetDialog{
+border-image: url(:/png/main/bg_test.png);
+}
+
+QLabel{
+font-size: 16pt;
+}
+
+QCheckBox{
+font-size: 16pt;
+}
+QCheckBox::indicator{
+width: 20px;
+height: 20px;
+}
+
+QLineEdit{
+font-size: 16pt;
+border-image: url(:/png/main/btntest.png);
+padding-left: 20px;
+}
+
+QSpinBox{
+font-size: 16pt;
+border-image: url(:/png/main/btntest.png);
+}
+
+QDoubleSpinBox{
+font-size: 16pt;
+border-image: url(:/png/main/btntest.png);
+padding-left: 20px;
+}
+
+QComboBox{
+font-size: 16pt;
+border-image: url(:/png/main/btntest.png);
+background: transparent;
+padding-left: 14px;
+}
+QComboBox::drop-down{
+background: transparent;
+padding-right: 20px;
+}
+QComboBox::down-arrow{
+border-image: url(:/png/main/icon_arrow.png);
+width: 16px;
+height: 16px;
+border: none;
+}
+QComboBox QAbstractItemView{
+padding-left: 20px;
+font-size: 16pt;
+selection-color: rgb(255, 255, 255);
+selection-background-color: rgb(26, 95, 180);
+}
+
+QPushButton{
+font-size: 16pt;
+border-image: url(:/png/main/btntest.png);
+}
+QPushButton:pressed{
+border-image: url(:/png/main/btntest1.png);
+}
+
+QTableWidget{
+font-size: 16pt;
+background-color: #BCE2FF;
+alternate-background-color: #D0EBFF;
+}
+QHeaderView{
+font-size: 14pt;
+}
+QTableWidget::item::selected{
+color: #BCE2FF;
+background-color: #0663A1;
+}
+
+#nameLab,
+#timeLab{
+color: rgb(255, 255, 255);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>42</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="logoLab">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-image: url(:/png/main/logo.png);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="nameLab">
+        <property name="minimumSize">
+         <size>
+          <width>414</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>步阶设置界面</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="timeLab">
+        <property name="minimumSize">
+         <size>
+          <width>413</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QWidget" name="widget_2" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>20</number>
+        </property>
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>步号</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>电压(U)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>电压(V)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>电压(W)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>频率(U)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>频率(V)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>频率(W)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>时间(U)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>时间(V)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>时间(W)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>波形(U)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>波形(V)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>波形(W)</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="UWidget" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <property name="leftMargin">
+            <number>20</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="minimumSize">
+              <size>
+               <width>81</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>81</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>电压(V)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="voltageLabU">
+             <property name="text">
+              <string notr="true">U:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="voltageLEU">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>500.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="voltageLabV">
+             <property name="text">
+              <string notr="true">V:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="voltageLEV">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>500.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="voltageLabW">
+             <property name="text">
+              <string notr="true">W:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="voltageLEW">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>500.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>频率(Hz)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="freqLabU">
+             <property name="text">
+              <string notr="true">U:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="freqLEU">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="maximum">
+              <double>240.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="freqLabV">
+             <property name="text">
+              <string notr="true">V:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="freqLEV">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="maximum">
+              <double>240.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="freqLabW">
+             <property name="text">
+              <string notr="true">W:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="freqLEW">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="maximum">
+              <double>240.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="UWidget2" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <property name="leftMargin">
+            <number>20</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_16">
+             <property name="minimumSize">
+              <size>
+               <width>81</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>81</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>谐波   </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="harmonicsLEU">
+             <property name="text">
+              <string notr="true">U:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="harmonicsCBU">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="currentText">
+              <string notr="true">正弦波</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>正弦波</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波9</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波10</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="harmonicsLEV">
+             <property name="text">
+              <string notr="true">V:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="harmonicsCBV">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="currentText">
+              <string notr="true">正弦波</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>正弦波</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波9</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波10</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="harmonicsLEW">
+             <property name="text">
+              <string notr="true">W:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="harmonicsCBW">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="currentText">
+              <string notr="true">正弦波</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>正弦波</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波9</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>谐波10</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="minimumSize">
+              <size>
+               <width>81</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>时间(S) </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="timeLabU">
+             <property name="text">
+              <string notr="true">U:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="timeLEU">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="timeLabV">
+             <property name="text">
+              <string notr="true">V:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="timeLEV">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="timeLabW">
+             <property name="text">
+              <string notr="true">W:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="timeLEW">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="angleWidget" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <property name="leftMargin">
+            <number>20</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="angleLab">
+             <property name="minimumSize">
+              <size>
+               <width>81</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>81</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>相角(。)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_28">
+             <property name="text">
+              <string notr="true">UV:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="angleLE1">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string notr="true">UV:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="angleLE2">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_32">
+             <property name="text">
+              <string notr="true">VW:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="angleLE3">
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>46</height>
+              </size>
+             </property>
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="specialValueText">
+              <string notr="true"/>
+             </property>
+             <property name="prefix">
+              <string notr="true"/>
+             </property>
+             <property name="suffix">
+              <string notr="true"/>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <double>360.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="widget_4" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>186</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>186</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLineEdit{
+padding-left: 0px;
+}</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>20</number>
+        </property>
+        <property name="leftMargin">
+         <number>16</number>
+        </property>
+        <property name="topMargin">
+         <number>30</number>
+        </property>
+        <property name="rightMargin">
+         <number>16</number>
+        </property>
+        <property name="bottomMargin">
+         <number>30</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>当前输出模式</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="outputModeLE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>46</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>起始步号</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QSpinBox" name="startStepNoLE">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>46</height>
+             </size>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="suffix">
+             <string notr="true"/>
+            </property>
+            <property name="prefix">
+             <string notr="true"/>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>-</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="stopStepNoLE">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>46</height>
+             </size>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="suffix">
+             <string notr="true"/>
+            </property>
+            <property name="prefix">
+             <string notr="true"/>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>循环次数</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="cycleLE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>46</height>
+           </size>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="suffix">
+           <string notr="true"/>
+          </property>
+          <property name="prefix">
+           <string notr="true"/>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>999999</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>快速跳转</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="jumpLE">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>46</height>
+           </size>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="suffix">
+           <string notr="true"/>
+          </property>
+          <property name="prefix">
+           <string notr="true"/>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>288</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveBtn">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>46</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>保存</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="backBtn">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>46</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>  返回</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../res/res.qrc">
+            <normaloff>:/png/main/icon_back.png</normaloff>:/png/main/icon_back.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
